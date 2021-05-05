@@ -50,8 +50,8 @@ const Network = {
             navigator.geolocation.getCurrentPosition(function(position) {
                 localStorage.setItem('latitude', position.coords.latitude);
                     localStorage.setItem('longitude', position.coords.longitude);
-                console.log("Latitude is :", position.coords.latitude);
-                console.log("Longitude is :", position.coords.longitude);
+                console.log("Latitude is :", localStorage.getItem('latitude'));
+                console.log("Longitude is :",localStorage.getItem('longitude'));
               });
             var data = {
                 channelId: 1,

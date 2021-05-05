@@ -53,7 +53,7 @@ const Network = {
                 userId: 2,
                 latitude: '22.54410489419337',
                 longitude: '88.35800126798115',
-                storeId: 1,
+                storeId: 2,
             };
             axios({
                 url: serverUrl + config.dashboardData,

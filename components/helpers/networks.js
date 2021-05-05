@@ -46,9 +46,11 @@ const Network = {
     },
     dashboardData: async () => {
         return new Promise((resolve, reject) => {
+            var latitude='';
+            var longitude='';
             navigator.geolocation.getCurrentPosition(function(position) {
-                const latitude = position.coords.latitude;
-                const longitude = position.coords.longitude;
+                 latitude = position.coords.latitude;
+                 longitude = position.coords.longitude;
                 console.log("Latitude is :", position.coords.latitude);
                 console.log("Longitude is :", position.coords.longitude);
               });

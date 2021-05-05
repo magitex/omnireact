@@ -2,6 +2,14 @@ import config from './config';
 import axios from 'axios';
 var qs = require('qs');
 const serverUrl = config.baseUrl;
+var latitude='';
+            var longitude='';
+            navigator.geolocation.getCurrentPosition(function(position) {
+                 latitude = position.coords.latitude;
+                 longitude = position.coords.longitude;
+                console.log("Latitude is :", position.coords.latitude);
+                console.log("Longitude is :", position.coords.longitude);
+              });
 if (typeof window !== 'undefined')
     if (window.localStorage.getItem('token') !== null) {
         axios.defaults.headers.common['Authorization'] =
@@ -46,14 +54,7 @@ const Network = {
     },
     dashboardData: async () => {
         return new Promise((resolve, reject) => {
-            var latitude='';
-            var longitude='';
-            navigator.geolocation.getCurrentPosition(function(position) {
-                 latitude = position.coords.latitude;
-                 longitude = position.coords.longitude;
-                console.log("Latitude is :", position.coords.latitude);
-                console.log("Longitude is :", position.coords.longitude);
-              });
+            
             var data = {
                 channelId: 1,
                 customerId: 1,

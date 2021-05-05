@@ -46,13 +46,19 @@ const Network = {
     },
     dashboardData: async () => {
         return new Promise((resolve, reject) => {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                const latitude = position.coords.latitude;
+                const longitude = position.coords.longitude;
+                console.log("Latitude is :", position.coords.latitude);
+                console.log("Longitude is :", position.coords.longitude);
+              });
             var data = {
                 channelId: 1,
                 customerId: 1,
                 language: 'ENG',
                 userId: 2,
-                latitude: '22.54410489419337',
-                longitude: '88.35800126798115',
+                latitude: latitude,
+                longitude: longitude,
                 storeId: 1,
             };
             axios({

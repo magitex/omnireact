@@ -24,10 +24,7 @@ const HomepageDefaultPage = () => {
     const [topBrands, settopBrands] = useState([]);
     const [trendingItems, settrendingItems] = useState([]);
     async function getBannerItems() {
-        navigator.geolocation.getCurrentPosition(function(position) {
-            console.log("Latitude is :", position.coords.latitude);
-            console.log("Longitude is :", position.coords.longitude);
-          });
+       
         console.log("123 ",localStorage.getItem("token"));
         let data;
        

@@ -46,11 +46,10 @@ const Network = {
     },
     dashboardData: async () => {
         return new Promise((resolve, reject) => {
-            var latitude='';
-            var longitude='';
+           
             navigator.geolocation.getCurrentPosition(function(position) {
-                 latitude = position.coords.latitude;
-                 longitude = position.coords.longitude;
+                localStorage.setItem('latitude', position.coords.latitude);
+                    localStorage.setItem('longitude', position.coords.longitude);
                 console.log("Latitude is :", position.coords.latitude);
                 console.log("Longitude is :", position.coords.longitude);
               });
@@ -59,8 +58,8 @@ const Network = {
                 customerId: 1,
                 language: 'ENG',
                 userId: 2,
-                latitude: latitude,
-                longitude: longitude,
+                latitude: localStorage.getItem('latitude'),
+                longitude: localStorage.getItem('longitude'),
                 storeId: 1,
             };
             axios({

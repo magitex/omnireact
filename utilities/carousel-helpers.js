@@ -7,8 +7,8 @@ export const carouselStandard = {
     arrows: true,
     infinite: true,
     speed: 750,
-    slidesToShow: 5,
-    slidesToScroll: 2,
+   // slidesToShow: 5,
+    //slidesToScroll: 2,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
     responsive: [

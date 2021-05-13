@@ -67,15 +67,7 @@ const HomeDefaultDealOfDay = ({ collectionSlug }) => {
                         <div className="ps-block__left">
                             <h3>Deal of the day</h3>
                         </div>
-                        <div className="ps-block__right">
-                            <figure>
-                                <figcaption>End in:</figcaption>
-                                <CountDownSimple
-                                    timeTillDate="12 31 2021, 6:00 am"
-                                    timeF ormat="MM DD YYYY, h:mm a"
-                                />
-                            </figure>
-                        </div>
+                       
                     </div>
                     <Link href="/shop">
                         <a>View all</a>

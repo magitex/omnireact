@@ -3,7 +3,7 @@ import PrevArrow from '../components/elements/carousel/PrevArrow';
 import React from 'react';
 
 export const carouselStandard = {
-    dots: false,
+    dots: true,
     arrows: true,
     infinite: true,
     speed: 750,

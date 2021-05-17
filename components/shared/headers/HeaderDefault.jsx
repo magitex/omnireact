@@ -6,11 +6,13 @@ import HeaderActions from '~/components/shared/headers/modules/HeaderActions';
 import { stickyHeader } from '~/utilities/common-helpers';
 import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDropdown';
 import Hyperlocation from '~/components/shared/headers/modules/Hyperlocation';
-const togglePopup = () => {
-    setIsOpen(!isOpen);
-  }
+
 const HeaderDefault = () => {
     const [isOpen, setIsOpen] = useState(false);
+    
+    const togglePopup = () => {
+        setIsOpen(!isOpen);
+      }
     useEffect(() => {
         if (process.browser) {
             window.addEventListener('scroll', stickyHeader);

@@ -27,6 +27,9 @@ const HeaderDefault = () => {
                     <div className="header__center">
                         <SearchHeader />
                     </div>
+                    <div className="header__center">
+                        Pickup Location
+                    </div>
                     <div className="header__right">
                         <HeaderActions />
                     </div>

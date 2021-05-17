@@ -5,7 +5,7 @@ import NavigationDefault from '~/components/shared/navigation/NavigationDefault'
 import HeaderActions from '~/components/shared/headers/modules/HeaderActions';
 import { stickyHeader } from '~/utilities/common-helpers';
 import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDropdown';
-import SimpleMap from ".~/components/shared/headers/Map";
+
 const HeaderDefault = () => {
     useEffect(() => {
         if (process.browser) {
@@ -27,7 +27,6 @@ const HeaderDefault = () => {
                     <div className="header__center">
                         <SearchHeader />
                     </div>
-                    <div><SimpleMap center={{ lat: -24.9923319, lng: 115.2252427 }} zoom={4} /></div>
                     <div className="header__right">
                         <HeaderActions />
                     </div>

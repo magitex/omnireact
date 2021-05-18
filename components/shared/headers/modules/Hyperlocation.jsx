@@ -9,9 +9,7 @@ const Hyperlocation = props => {
     <div className="popup-box">
       <div className="box">
         <span className="close-icon" onClick={props.handleClose}>x</span>
-        {props.content}
-      </div>
-      <input
+          <input
       type="button"
       value="Pickup from store"
       onClick={() => setdelivery(1)} 
@@ -21,6 +19,8 @@ const Hyperlocation = props => {
       value="Home Delivery"
       onClick={() => setdelivery(2)}
     />
+      </div>
+      
     </div>
   );
 };

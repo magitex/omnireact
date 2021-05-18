@@ -5,10 +5,10 @@
     "scripts": {
         "dev": "next dev -p 3001",
         "build": "next build",
-        "build-dev":"next build && next export",
+        "build-dev": "next build && next export",
         "start": "next start -p $PORT",
-        "start:prod":"next start -p 8080",
-        "heroku-postbuild": "npm run build"     
+        "start:prod": "next start -p 8080",
+        "heroku-postbuild": "npm run build"
     },
     "dependencies": {
         "@zeit/next-sass": "^1.0.1",
@@ -29,6 +29,7 @@
         "react": "^17.0.1",
         "react-custom-scrollbars": "^4.2.1",
         "react-dom": "^16.13.1",
+        "react-geocode": "^0.2.3",
         "react-image-lightbox": "^5.1.1",
         "react-images": "^1.1.0-beta.3",
         "react-lazyload": "^2.6.5",

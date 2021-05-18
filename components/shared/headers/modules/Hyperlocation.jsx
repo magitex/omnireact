@@ -1,4 +1,5 @@
 import React from "react";
+import SearchLocationInput from '~/components/shared/headers/modules/SearchLocationInput';
 
 const Hyperlocation = props => {
   const setdelivery = (item) => {
@@ -19,6 +20,7 @@ const Hyperlocation = props => {
       value="Home Delivery"
       onClick={() => setdelivery(2)}
     />
+    <SearchLocationInput />
       </div>
       
     </div>

@@ -36,7 +36,7 @@ const HeaderDefault = () => {
                     <div className="header__center">
                          <input
       type="button"
-      value="Click to Open pickup"
+      value="Select Delivery  address"
       onClick={togglePopup}
     />
      {isOpen && <Hyperlocation

@@ -21,6 +21,7 @@ const Hyperlocation = props => {
       onClick={() => setdelivery(2)}
     />
     <SearchLocationInput />
+    <div ></div>
       </div>
       
     </div>

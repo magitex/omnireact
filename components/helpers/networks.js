@@ -54,7 +54,7 @@ const Network = {
                 console.log("Longitude is :",localStorage.getItem('longitude'));
               });
             var data = {
-                channelId: 1,
+                channelId: 2,
                 customerId: 1,
                 language: 'ENG',
                 userId: 2,

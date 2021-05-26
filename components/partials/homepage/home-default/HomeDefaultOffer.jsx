@@ -59,18 +59,32 @@ const HomeDefaultOffer = ({ collectionSlug }) => {
     }
 
     return (
-        <div className="ps-offer-of-day">
+        <div className="ps-deal-of-day">
             <div className="ps-container">
                 <div className="ps-section__header">
+
                     <div className="ps-block--countdown-deal">
                         <div className="ps-block__left">
-                            <h3>Offer</h3>
-                        </div>
-                        
+                    <h3>Offer</h3>
+                    </div>
                     </div>
                     <Link href="/shop">
-                        <a>View all</a>
+                        View all
                     </Link>
+                   
+
+
+
+
+
+
+
+
+
+
+
+
+                    
                 </div>
                 <div className="ps-section__content">{productItemsView}</div>
             </div>

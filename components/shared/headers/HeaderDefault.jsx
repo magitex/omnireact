@@ -8,17 +8,48 @@ import MenuCategoriesDropdown from '~/components/shared/menus/MenuCategoriesDrop
 import Hyperlocation from '~/components/shared/headers/modules/Hyperlocation';
 
 const HeaderDefault = () => {
+    const requestOptions = {
+        headers: ('Access-Control-Allow-Origin: *')
+    };
+
     const [isOpen, setIsOpen] = useState(false);
-    
+    const [address, setaddress] = useState(false);
+    const [deliverymethod, setdeliverymethod] = useState(false);
     const togglePopup = () => {
         setIsOpen(!isOpen);
       }
+      async function getcurrentaddress() {
+        setdeliverymethod(localStorage.getItem('deliverymethod'));
+      var obj = "latlng=" + localStorage.getItem('latitude') + "," + localStorage.getItem('longitude');
+
+      let _fire = fetch('https://maps.googleapis.com/maps/api/geocode/json?' + obj + '&key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y'
+      )
+      return _fire.then((resp) => {
+        return resp.json().then((res) => {
+         setaddress(res.results[0].formatted_address)
+          
+        })
+      }).catch(error => {
+        
+
+      })
+    }
     useEffect(() => {
         if (process.browser) {
             window.addEventListener('scroll', stickyHeader);
         }
+        getcurrentaddress();
     }, []);
-
+    let delivery;
+    let fulladdress;
+    if(deliverymethod==1)
+    {
+        delivery='Store';
+    }
+    else{
+        delivery='Home'; 
+    }
+    fulladdress=address;
     return (
         <header
             className="header header--1"
@@ -34,12 +65,13 @@ const HeaderDefault = () => {
                         <SearchHeader />
                     </div>
                     <div className="header__center">
-                         <input
-      type="button"
-      value="Select Delivery  address"
-      className="address_holder"
-      onClick={togglePopup}
-    />
+                     <a className="address_holder" onClick={togglePopup}>
+                     {delivery} Pickup,
+                     <br/>    
+                     {fulladdress}
+                        </a>
+                        
+  
      {isOpen && <Hyperlocation
       content={<>
         <b>Design your Popup</b>
@@ -48,6 +80,7 @@ const HeaderDefault = () => {
       </>}
       handleClose={togglePopup}
     />}
+   
     
                     </div>
                     <div className="header__right">

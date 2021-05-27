@@ -13,7 +13,7 @@ class SearchLocationInput extends Component {
 
   render() {
     return (
-      <div >
+      
          <GoogleComponent
          
           apiKey={API_KEY}
@@ -25,10 +25,10 @@ class SearchLocationInput extends Component {
             "lng": 88.39168
           }}
           placeholder={'Start typing location'}
-          locationBoxStyle={'custom-style'}
+          locationBoxStyle={'search-location-input'}
           locationListStyle={'custom-style-list'}
           onChange={(e) => { this.setState({ place: e }) }} />
-      </div>
+      
 
     )
   } 

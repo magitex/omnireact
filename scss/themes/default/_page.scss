@@ -1,6 +1,6 @@
 #homepage-1 {
     .ps-home-banner {
-        padding-top: 30px;
+        //padding-top: 30px;
         margin-bottom: 30px;
         .ps-collection {
             display: block;
@@ -34,6 +34,7 @@
 
         .ps-container {
             height: 100%;
+            padding: 0px;
             > * {
                 flex: 1;
                 flex-basis: 100%;

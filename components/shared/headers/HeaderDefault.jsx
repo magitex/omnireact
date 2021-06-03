@@ -66,7 +66,7 @@ const HeaderDefault = () => {
                     </div>
                     <div className="header__center">
                      <a className="address_holder" onClick={togglePopup}>
-                     {delivery} Pickupllllll,
+                     {delivery} Pickupllll555ll,
                      <br/>    
                      {fulladdress}
                         </a>

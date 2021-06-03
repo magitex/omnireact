@@ -42,14 +42,32 @@ const HeaderDefault = () => {
     }, []);
     let delivery;
     let fulladdress;
+    let addresstype='';
+    fulladdress=address;
     if(deliverymethod==1)
     {
-        delivery='Store';
+        delivery='Pickup From';
+        if (typeof window !== 'undefined')
+{
+        if (window.localStorage.getItem('storename') !== null)
+        {
+        fulladdress=localStorage.getItem('storename') + ', ' + localStorage.getItem('storeaddress');
+        }
+    }
     }
     else{
-        delivery='Home'; 
+        if (typeof window !== 'undefined')
+{
+        if (window.localStorage.getItem('city') !== null)
+        {
+            fulladdress=localStorage.getItem('address') + ', ' + localStorage.getItem('state') + ', ' + localStorage.getItem('city');
+        
+            addresstype=localStorage.getItem('addresstype');
+        }
     }
-    fulladdress=address;
+        delivery='Deliverying To ' + addresstype ; 
+    }
+   
     return (
         <header
             className="header header--1"
@@ -65,8 +83,9 @@ const HeaderDefault = () => {
                         <SearchHeader />
                     </div>
                     <div className="header__center">
-                     <a className="address_holder" onClick={togglePopup}>
-                     {delivery} Pickupllll555ll,
+
+                              <a className="address_holder" onClick={togglePopup}>
+                     {delivery},
                      <br/>    
                      {fulladdress}
                         </a>

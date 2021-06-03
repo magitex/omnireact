@@ -160,7 +160,7 @@ export function omniProductThumbnail(product) {
 
     if (product.itemImage) {
         view = (
-            <Link href="/product/[pid]" as={`/product/${product.itemTypeID}`}>
+            <Link href="/product/[pid]" as={`/product/${product.itemID}`}>
                 <a>
                     <LazyLoad>
                         <img
@@ -173,7 +173,7 @@ export function omniProductThumbnail(product) {
         );
     } else {
         view = (
-            <Link href="/product/[pid]" as={`/product/${product.itemTypeID}`}>
+            <Link href="/product/[pid]" as={`/product/${product.itemID}`}>
                 <a>
                     <LazyLoad>
                         <img src="/static/img/not-found.jpg" alt="martfury" />

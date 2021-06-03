@@ -22,12 +22,12 @@ const ThumbnailDefault = ({ product, vertical = true }) => {
 
     useEffect(() => {
         let images = [];
-        if (product && product.images.length > 0) {
-            product.images.map((item) => {
-                images.push(`${baseUrl}${item.url}`);
-            });
+        
+            images.push(product.productDetailsImage1);
+            images.push(product.productDetailsImage2);
+            images.push(product.productDetailsImage3);
             setProductImages(images);
-        }
+       
         setGallery(galleryCarousel.current);
         setVariant(variantCarousel.current);
     }, [product]);

@@ -23,7 +23,7 @@ const ProductDealOfDay = ({ product }) => {
             
             <div className="ps-product__content">
                  
-            <Link href="/product/[pid]" as={`/product/${product.itemTypeID}`}>
+            <Link href="/product/[pid]" as={`/product/${product.itemID}`}>
             <a className="ps-product__title">{product.itemName}</a>
             </Link>
             <div className="ps-product__rating">

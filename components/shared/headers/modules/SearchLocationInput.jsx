@@ -13,22 +13,22 @@ class SearchLocationInput extends Component {
 
   render() {
     return (
-      
+      <div >
          <GoogleComponent
          
           apiKey={API_KEY}
           language={'en'}
-          country={'country:in|country:us'}
+          country={'country:in'}
           coordinates={true}
           currentCoordinates={{
-            "lat": 22.672179200000002,
-            "lng": 88.39168
+            "lat": localStorage.getItem('latitude'),
+            "lng": localStorage.getItem('longitude')
           }}
           placeholder={'Start typing location'}
-          locationBoxStyle={'search-location-input'}
+          locationBoxStyle={'custom-style'}
           locationListStyle={'custom-style-list'}
           onChange={(e) => { this.setState({ place: e }) }} />
-      
+      </div>
 
     )
   } 

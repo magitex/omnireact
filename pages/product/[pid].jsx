@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect,createContext, useState } from 'react';
 import { connect } from 'react-redux';
 import { useRouter } from 'next/router';
 import ContainerProductDetail from '~/components/layouts/ContainerProductDetail';
@@ -12,16 +12,27 @@ import RelatedProduct from '~/components/partials/product/RelatedProduct';
 import ContainerPage from '~/components/layouts/ContainerPage';
 import HeaderProduct from '~/components/shared/headers/HeaderProduct';
 import HeaderDefault from '~/components/shared/headers/HeaderDefault';
-
+import Helper from '~/components/helpers/networks';
+import {HomeContext} from '~/components/helpers/context';
 const ProductDefaultPage = () => {
     const router = useRouter();
     const { pid } = router.query;
+    //const [productdetails, setproductdetails] = useState([]);
     const [product, setProduct] = useState(null);
     const [loading, setLoading] = useState(false);
 
     async function getProduct(pid) {
         setLoading(true);
-        const responseData = await ProductRepository.getProductsById(pid);
+        console.log("123 ",localStorage.getItem("token"));
+        let data;
+       
+        const token=await Helper.getToken();
+       // console.log("new token11",localStorage.getItem("token"));
+        data= await Helper.productDetails(pid);
+
+        const responseData = data && data.data.data;
+        
+
         if (responseData) {
             setProduct(responseData);
             setTimeout(
@@ -47,7 +58,7 @@ const ProductDefaultPage = () => {
             url: '/shop',
         },
         {
-            text: product ? product.title : 'Loading...',
+            text: product ? product.productName : 'Loading...',
         },
     ];
     // Views
@@ -63,7 +74,7 @@ const ProductDefaultPage = () => {
         productView = <SkeletonProductDetail />;
     }
     return (
-        <ContainerProductDetail title={product ? product.title : 'Loading...'}>
+        <ContainerProductDetail title={product ? product.productName : 'Loading...'}>
             {headerView}
             <BreadCrumb breacrumb={breadCrumb} layout="fullwidth" />
             <div className="ps-page--product">

@@ -1,5 +1,7 @@
 import React,{useContext} from 'react';
 import Link from 'next/link';
+import Slider from 'react-slick';
+import { carouselFullwidth } from '~/utilities/carousel-helpers';
 import {HomeContext} from '~/components/helpers/context';
 
 const HomeDefaultTopBrands = () => {
@@ -8,6 +10,7 @@ const HomeDefaultTopBrands = () => {
         <div className="ps-container">
             <h3>Top Brands</h3>
             <div className="row">
+            <Slider {...carouselFullwidth} className="ps-carousel outside">
                 {topBrands && topBrands.map((pc,key)=>(
                 <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 " key={key}>
                     <div className="ps-block--category">
@@ -21,6 +24,7 @@ const HomeDefaultTopBrands = () => {
                     </div>
                 </div>
                 ))}
+                </Slider>
                 {/* <div className="col-xl-2 col-lg-3 col-md-4 col-sm-4 col-6 ">
                     <div className="ps-block--category">
                         <Link href="/shop">

@@ -1,25 +1,20 @@
 import React from 'react';
 import Link from 'next/link';
 
-const ModuleProductDetailSpecification = () => (
+const ModuleProductDetailSpecification = ({ product }) => (
     <div className="ps-product__specification">
         <Link href="/page/blank">
             <a className="report">Report Abuse</a>
         </Link>
         <p>
-            <strong>SKU:</strong> SF1133569600-1
+            <strong>SKU:</strong> {product.skucode}
         </p>
         <p className="categories">
             <strong> Categories:</strong>
             <Link href="/shop">
-                <a>Consumer Electronics</a>
+                <a>{product.categoryName}</a>
             </Link>
-            <Link href="/shop">
-                <a>Refrigerator</a>
-            </Link>
-            <Link href="/shop">
-                <a>Babies & Moms</a>
-            </Link>
+           
         </p>
         <p className="tags">
             <strong> Tags</strong>

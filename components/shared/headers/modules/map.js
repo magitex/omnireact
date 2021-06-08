@@ -210,7 +210,8 @@ class Map extends React.Component{constructor( props ){
        </div>
       </InfoWindow></GoogleMap>)
    )
-  );let map;
+  );
+  let map;
   if( this.props.center.lat !== undefined ) {
    map = <div>
      <div>

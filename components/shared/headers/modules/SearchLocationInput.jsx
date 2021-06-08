@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import LocationSearchInputFun from  '~/components/shared/headers/modules/LocationSearchInputFun'; 
+import Googlemap from  '~/components/shared/headers/modules/Googlemap'; 
 
 const API_KEY = 'AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y'  // how to get key - step are below
 
@@ -14,7 +14,7 @@ class SearchLocationInput extends Component {
   render() {
     return (
       <div >
-         <LocationSearchInputFun />
+          <Googlemap />
          
         </div>
 

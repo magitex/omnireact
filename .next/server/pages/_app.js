@@ -3221,8 +3221,6 @@ const StyleSheets = () => /*#__PURE__*/Object(jsx_runtime_["jsxs"])(head_default
   }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("meta", {
     name: "description",
     content: "Martfury - React eCommerce Template"
-  }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("script", {
-    src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y&libraries=places"
   }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("link", {
     href: "https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;subset=latin-ext",
     rel: "stylesheet"

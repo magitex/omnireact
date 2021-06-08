@@ -300,6 +300,13 @@ module.exports = __webpack_require__("xj4y");
 
 /***/ }),
 
+/***/ "1AsU":
+/***/ (function(module, exports) {
+
+module.exports = require("react-google-autocomplete");
+
+/***/ }),
+
 /***/ "24c+":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -965,6 +972,13 @@ const ModulePaymentOrderSummary = ({
 
 /***/ }),
 
+/***/ "9Tpg":
+/***/ (function(module, exports) {
+
+module.exports = require("react-google-maps");
+
+/***/ }),
+
 /***/ "AroE":
 /***/ (function(module, exports) {
 
@@ -1310,6 +1324,13 @@ module.exports = require("react/jsx-runtime");
 
 /***/ }),
 
+/***/ "GNgB":
+/***/ (function(module, exports) {
+
+module.exports = require("react-geocode");
+
+/***/ }),
+
 /***/ "GXs3":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1639,13 +1660,6 @@ const FooterCopyright = () => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMP
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (FooterCopyright);
-
-/***/ }),
-
-/***/ "KOAY":
-/***/ (function(module, exports) {
-
-module.exports = require("react-places-autocomplete");
 
 /***/ }),
 
@@ -5927,99 +5941,351 @@ var jsx_runtime_ = __webpack_require__("F5FC");
 
 // EXTERNAL MODULE: external "react"
 var external_react_ = __webpack_require__("cDcd");
+var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
 
-// EXTERNAL MODULE: external "react-places-autocomplete"
-var external_react_places_autocomplete_ = __webpack_require__("KOAY");
-var external_react_places_autocomplete_default = /*#__PURE__*/__webpack_require__.n(external_react_places_autocomplete_);
+// EXTERNAL MODULE: external "react-google-maps"
+var external_react_google_maps_ = __webpack_require__("9Tpg");
 
-// CONCATENATED MODULE: ./components/shared/headers/modules/LocationSearchInputFun.jsx
+// EXTERNAL MODULE: external "react-google-autocomplete"
+var external_react_google_autocomplete_ = __webpack_require__("1AsU");
+var external_react_google_autocomplete_default = /*#__PURE__*/__webpack_require__.n(external_react_google_autocomplete_);
+
+// EXTERNAL MODULE: external "react-geocode"
+var external_react_geocode_ = __webpack_require__("GNgB");
+var external_react_geocode_default = /*#__PURE__*/__webpack_require__.n(external_react_geocode_);
+
+// CONCATENATED MODULE: ./components/shared/headers/modules/Map.js
 
 
-
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
-const initial = {
-  lat: '',
-  lng: ''
-};
 
-function LocationSearchInputFun() {
-  const {
-    0: address,
-    1: setAddress
-  } = Object(external_react_["useState"])('');
-  const {
-    0: latLng,
-    1: setLatLng
-  } = Object(external_react_["useState"])(initial);
 
-  const handleChange = address => {
-    setAddress(address);
-  };
+external_react_geocode_default.a.setApiKey("AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y"); //Geocode.enableDebug();
 
-  const handleChangeLatLng = latLngObj => {
-    setLatLng(latLngObj);
-  };
+class Map_Map extends external_react_default.a.Component {
+  constructor(props) {
+    super(props);
 
-  const handleSelect = address => {
-    Object(external_react_places_autocomplete_["geocodeByAddress"])(address).then(results => Object(external_react_places_autocomplete_["getLatLng"])(results[0])).then(latLng => {
-      setAddress(address);
-      setLatLng(latLng);
-      console.log('Success', latLng);
-    }).catch(error => {
-      setLatLng({});
-      console.error('Error', error);
+    _defineProperty(this, "getCity", addressArray => {
+      let city = '';
+
+      for (let i = 0; i < addressArray.length; i++) {
+        if (addressArray[i].types[0] && 'administrative_area_level_2' === addressArray[i].types[0]) {
+          city = addressArray[i].long_name;
+          return city;
+        }
+      }
     });
-  };
 
-  return /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_places_autocomplete_default.a, {
-    value: address,
-    onChange: handleChange,
-    onSelect: handleSelect,
-    children: ({
-      getInputProps,
-      suggestions,
-      getSuggestionItemProps,
-      loading
-    }) => /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("input", _objectSpread({}, getInputProps({
-        placeholder: 'Search Places ...',
-        className: 'location-search-input'
-      }))), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-        className: "autocomplete-dropdown-container",
-        children: [loading && /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-          children: "Loading..."
-        }), suggestions.map((suggestion, i) => {
-          const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'; // inline style for demonstration purpose
+    _defineProperty(this, "getArea", addressArray => {
+      let area = '';
 
-          const style = suggestion.active ? {
-            backgroundColor: '#fafafa',
-            cursor: 'pointer'
-          } : {
-            backgroundColor: '#ffffff',
-            cursor: 'pointer'
-          };
-          return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", _objectSpread(_objectSpread({}, getSuggestionItemProps(suggestion, {
-            className,
-            style
-          })), {}, {
-            children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
-              children: suggestion.description
-            })
-          }), i);
-        })]
+      for (let i = 0; i < addressArray.length; i++) {
+        if (addressArray[i].types[0]) {
+          for (let j = 0; j < addressArray[i].types.length; j++) {
+            if ('sublocality_level_1' === addressArray[i].types[j] || 'locality' === addressArray[i].types[j]) {
+              area = addressArray[i].long_name;
+              return area;
+            }
+          }
+        }
+      }
+    });
+
+    _defineProperty(this, "getState", addressArray => {
+      let state = '';
+
+      for (let i = 0; i < addressArray.length; i++) {
+        for (let i = 0; i < addressArray.length; i++) {
+          if (addressArray[i].types[0] && 'administrative_area_level_1' === addressArray[i].types[0]) {
+            state = addressArray[i].long_name;
+            return state;
+          }
+        }
+      }
+    });
+
+    _defineProperty(this, "onChange", event => {
+      this.setState({
+        [event.target.name]: event.target.value
+      });
+    });
+
+    _defineProperty(this, "onInfoWindowClose", event => {});
+
+    _defineProperty(this, "onPlaceSelected", place => {
+      const address = place.formatted_address,
+            addressArray = place.address_components,
+            city = this.getCity(addressArray),
+            area = this.getArea(addressArray),
+            state = this.getState(addressArray),
+            latValue = place.geometry.location.lat(),
+            lngValue = place.geometry.location.lng(); // Set these values in the state.
+
+      this.setState({
+        address: address ? address : '',
+        area: area ? area : '',
+        city: city ? city : '',
+        state: state ? state : '',
+        markerPosition: {
+          lat: latValue,
+          lng: lngValue
+        },
+        mapPosition: {
+          lat: latValue,
+          lng: lngValue
+        }
+      });
+    });
+
+    _defineProperty(this, "onMarkerDragEnd", event => {
+      console.log('event', event);
+      let newLat = event.latLng.lat(),
+          newLng = event.latLng.lng(),
+          addressArray = [];
+      external_react_geocode_default.a.fromLatLng(newLat, newLng).then(response => {
+        const address = response.results[0].formatted_address,
+              addressArray = response.results[0].address_components,
+              city = this.getCity(addressArray),
+              area = this.getArea(addressArray),
+              state = this.getState(addressArray);
+        this.setState({
+          address: address ? address : '',
+          area: area ? area : '',
+          city: city ? city : '',
+          state: state ? state : ''
+        });
+      }, error => {
+        console.error(error);
+      });
+    });
+
+    this.state = {
+      address: '',
+      city: '',
+      area: '',
+      state: '',
+      mapPosition: {
+        lat: this.props.center.lat,
+        lng: this.props.center.lng
+      },
+      markerPosition: {
+        lat: this.props.center.lat,
+        lng: this.props.center.lng
+      }
+    };
+  }
+  /**
+  * Get the current address from the default map position and set those values in the state
+  */
+
+
+  componentDidMount() {
+    external_react_geocode_default.a.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(response => {
+      const address = response.results[0].formatted_address,
+            addressArray = response.results[0].address_components,
+            city = this.getCity(addressArray),
+            area = this.getArea(addressArray),
+            state = this.getState(addressArray);
+      console.log('city', city, area, state);
+      this.setState({
+        address: address ? address : '',
+        area: area ? area : '',
+        city: city ? city : '',
+        state: state ? state : ''
+      });
+    }, error => {
+      console.error(error);
+    });
+  }
+
+  /**
+  * Component should only update ( meaning re-render ), when the user selects the address, or drags the pin
+  *
+  * @param nextProps
+  * @param nextState
+  * @return {boolean}
+  */
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.state.markerPosition.lat !== this.props.center.lat || this.state.address !== nextState.address || this.state.city !== nextState.city || this.state.area !== nextState.area || this.state.state !== nextState.state) {
+      return true;
+    } else if (this.props.center.lat === nextProps.center.lat) {
+      return false;
+    }
+  }
+  /**
+  * Get the city and set the city input value to the one selected
+  *
+  * @param addressArray
+  * @return {string}
+  */
+
+
+  render() {
+    const AsyncMap = Object(external_react_google_maps_["withScriptjs"])(Object(external_react_google_maps_["withGoogleMap"])(props => /*#__PURE__*/Object(jsx_runtime_["jsxs"])(external_react_google_maps_["GoogleMap"], {
+      google: this.props.google,
+      defaultZoom: this.props.zoom,
+      defaultCenter: {
+        lat: this.state.mapPosition.lat,
+        lng: this.state.mapPosition.lng
+      },
+      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_autocomplete_default.a, {
+        style: {
+          width: '100%',
+          height: '40px',
+          paddingLeft: '16px',
+          marginTop: '2px',
+          marginBottom: '100px'
+        },
+        onPlaceSelected: this.onPlaceSelected,
+        types: ['(regions)']
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["Marker"], {
+        google: this.props.google,
+        name: 'Dolores park',
+        draggable: true,
+        onDragEnd: this.onMarkerDragEnd,
+        position: {
+          lat: this.state.markerPosition.lat,
+          lng: this.state.markerPosition.lng
+        }
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["Marker"], {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["InfoWindow"], {
+        onClose: this.onInfoWindowClose,
+        position: {
+          lat: this.state.markerPosition.lat + 0.0018,
+          lng: this.state.markerPosition.lng
+        },
+        children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+          children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
+            style: {
+              padding: 0,
+              margin: 0
+            },
+            children: this.state.address
+          })
+        })
       })]
-    })
-  });
+    })));
+    let map;
+
+    if (this.props.center.lat !== undefined) {
+      map = /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+        children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+          children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+            className: "form-group",
+            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+              htmlFor: "",
+              children: "City"
+            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+              type: "text",
+              name: "city",
+              className: "form-control",
+              onChange: this.onChange,
+              readOnly: "readOnly",
+              value: this.state.city
+            })]
+          }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+            className: "form-group",
+            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+              htmlFor: "",
+              children: "Area"
+            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+              type: "text",
+              name: "area",
+              className: "form-control",
+              onChange: this.onChange,
+              readOnly: "readOnly",
+              value: this.state.area
+            })]
+          }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+            className: "form-group",
+            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+              htmlFor: "",
+              children: "State"
+            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+              type: "text",
+              name: "state",
+              className: "form-control",
+              onChange: this.onChange,
+              readOnly: "readOnly",
+              value: this.state.state
+            })]
+          }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+            className: "form-group",
+            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+              htmlFor: "",
+              children: "Address"
+            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+              type: "text",
+              name: "address",
+              className: "form-control",
+              onChange: this.onChange,
+              readOnly: "readOnly",
+              value: this.state.address
+            })]
+          })]
+        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(AsyncMap, {
+          googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y&libraries=places&country=in",
+          loadingElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+            style: {
+              height: `100%`
+            }
+          }),
+          containerElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+            style: {
+              height: this.props.height
+            }
+          }),
+          mapElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+            style: {
+              height: `100%`
+            }
+          })
+        })]
+      });
+    } else {
+      map = /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+        style: {
+          height: this.props.height
+        }
+      });
+    }
+
+    return map;
+  }
+
 }
 
-/* harmony default export */ var modules_LocationSearchInputFun = (LocationSearchInputFun);
+/* harmony default export */ var modules_Map = (Map_Map);
+// CONCATENATED MODULE: ./components/shared/headers/modules/Googlemap.js
+
+
+
+
+class Googlemap_Googlemap extends external_react_["Component"] {
+  render() {
+    return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+      style: {
+        margin: '100px'
+      },
+      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_Map, {
+        google: this.props.google,
+        center: {
+          lat: 18.5204,
+          lng: 73.8567
+        },
+        height: "300px",
+        zoom: 15
+      })
+    });
+  }
+
+}
+
+/* harmony default export */ var modules_Googlemap = (Googlemap_Googlemap);
 // CONCATENATED MODULE: ./components/shared/headers/modules/SearchLocationInput.jsx
 
 
@@ -6036,7 +6302,7 @@ class SearchLocationInput_SearchLocationInput extends external_react_["Component
 
   render() {
     return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_LocationSearchInputFun, {})
+      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_Googlemap, {})
     });
   }
 

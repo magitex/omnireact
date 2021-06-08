@@ -446,7 +446,7 @@ const Product = ({
         className: "ps-product__content",
         children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
           href: "/product/[pid]",
-          as: `/product/${product.itemTypeID}`,
+          as: `/product/${product.itemID}`,
           children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
             className: "ps-product__title",
             children: product.itemName
@@ -1021,24 +1021,24 @@ const ModuleDetailTopInformation = ({
   // Views
   let priceView;
 
-  if (product.is_sale) {
+  if (product.discountPercent > 0) {
     priceView = /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("h4", {
       className: "ps-product__price sale",
       children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("del", {
         className: "mr-2",
-        children: ["&", product.sale_price]
-      }), "$", product.price]
+        children: ["&", product.mrp]
+      }), "$", product.unitPrice]
     });
   } else {
     priceView = /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("h4", {
       className: "ps-product__price",
-      children: ["$", product.price]
+      children: ["$", product.mrp]
     });
   }
 
   return /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("header", {
     children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("h1", {
-      children: product.title
+      children: product.productName
     }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
       className: "ps-product__meta",
       children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("p", {
@@ -1046,13 +1046,13 @@ const ModuleDetailTopInformation = ({
           href: "/shop",
           children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
             className: "ml-2 text-capitalize",
-            children: product.vendor
+            children: product.brandName
           })
         })]
       }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
         className: "ps-product__rating",
         children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_elements_Rating__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"], {}), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("span", {
-          children: "(1 review)"
+          children: product.rating
         })]
       })]
     }), priceView]
@@ -1433,7 +1433,9 @@ class ProductRepository {
 
 
 
-const ModuleProductDetailSpecification = () => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
+const ModuleProductDetailSpecification = ({
+  product
+}) => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
   className: "ps-product__specification",
   children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
     href: "/page/blank",
@@ -1444,7 +1446,7 @@ const ModuleProductDetailSpecification = () => /*#__PURE__*/Object(react_jsx_run
   }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("p", {
     children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("strong", {
       children: "SKU:"
-    }), " SF1133569600-1"]
+    }), " ", product.skucode]
   }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("p", {
     className: "categories",
     children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("strong", {
@@ -1452,17 +1454,7 @@ const ModuleProductDetailSpecification = () => /*#__PURE__*/Object(react_jsx_run
     }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
       href: "/shop",
       children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
-        children: "Consumer Electronics"
-      })
-    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-      href: "/shop",
-      children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
-        children: "Refrigerator"
-      })
-    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-      href: "/shop",
-      children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
-        children: "Babies & Moms"
+        children: product.categoryName
       })
     })]
   }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("p", {
@@ -1558,14 +1550,10 @@ const ThumbnailDefault = ({
 
   Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
     let images = [];
-
-    if (product && product.images.length > 0) {
-      product.images.map(item => {
-        images.push(`${_repositories_Repository__WEBPACK_IMPORTED_MODULE_4__[/* baseUrl */ "c"]}${item.url}`);
-      });
-      setProductImages(images);
-    }
-
+    images.push(product.productDetailsImage1);
+    images.push(product.productDetailsImage2);
+    images.push(product.productDetailsImage3);
+    setProductImages(images);
     setGallery(galleryCarousel.current);
     setVariant(variantCarousel.current);
   }, [product]);
@@ -1714,34 +1702,14 @@ const ThumbnailDefault = ({
 
 
 
-
 const ModuleProductDetailDescription = ({
   product
-}) => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
+}) => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
   className: "ps-product__desc",
-  children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("p", {
-    children: ["Sold By:", /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-      href: "/shop",
-      children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
-        children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("strong", {
-          children: [" ", product.vendor]
-        })
-      })
-    })]
-  }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("ul", {
+  children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("ul", {
     className: "ps-list--dot",
-    children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
-      children: "Unrestrained and portable active stereo speaker"
-    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
-      children: " Free from the confines of wires and chords"
-    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
-      children: " 20 hours of portable capabilities"
-    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
-      children: "Double-ended Coil Cord with 3.5mm Stereo Plugs Included"
-    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
-      children: " 3/4\u2033 Dome Tweeters: 2X and 4\u2033 Woofer: 1X"
-    })]
-  })]
+    children: product.productDescBrief
+  })
 });
 
 /* harmony default export */ __webpack_exports__["a"] = (ModuleProductDetailDescription);
@@ -2337,7 +2305,7 @@ function omniProductThumbnail(product) {
   if (product.itemImage) {
     view = /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
       href: "/product/[pid]",
-      as: `/product/${product.itemTypeID}`,
+      as: `/product/${product.itemID}`,
       children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
           children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("img", {
@@ -2350,7 +2318,7 @@ function omniProductThumbnail(product) {
   } else {
     view = /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
       href: "/product/[pid]",
-      as: `/product/${product.itemTypeID}`,
+      as: `/product/${product.itemID}`,
       children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
           children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("img", {

@@ -1653,7 +1653,7 @@ function omniProductThumbnail(product) {
   if (product.itemImage) {
     view = /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
       href: "/product/[pid]",
-      as: `/product/${product.itemTypeID}`,
+      as: `/product/${product.itemID}`,
       children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
           children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("img", {
@@ -1666,7 +1666,7 @@ function omniProductThumbnail(product) {
   } else {
     view = /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
       href: "/product/[pid]",
-      as: `/product/${product.itemTypeID}`,
+      as: `/product/${product.itemID}`,
       children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
           children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("img", {
@@ -3221,6 +3221,8 @@ const StyleSheets = () => /*#__PURE__*/Object(jsx_runtime_["jsxs"])(head_default
   }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("meta", {
     name: "description",
     content: "Martfury - React eCommerce Template"
+  }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("script", {
+    src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y&libraries=places"
   }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("link", {
     href: "https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;subset=latin-ext",
     rel: "stylesheet"

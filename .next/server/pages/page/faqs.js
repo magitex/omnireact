@@ -1537,6 +1537,13 @@ const FooterCopyright = () => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "KOAY":
+/***/ (function(module, exports) {
+
+module.exports = require("react-places-autocomplete");
+
+/***/ }),
+
 /***/ "MJbt":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2191,7 +2198,7 @@ function omniProductThumbnail(product) {
   if (product.itemImage) {
     view = /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
       href: "/product/[pid]",
-      as: `/product/${product.itemTypeID}`,
+      as: `/product/${product.itemID}`,
       children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
           children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("img", {
@@ -2204,7 +2211,7 @@ function omniProductThumbnail(product) {
   } else {
     view = /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_4___default.a, {
       href: "/product/[pid]",
-      as: `/product/${product.itemTypeID}`,
+      as: `/product/${product.itemID}`,
       children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
         children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(react_lazyload__WEBPACK_IMPORTED_MODULE_2___default.a, {
           children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("img", {
@@ -2418,379 +2425,17 @@ const MobileHeaderActions_mapStateToProps = state => {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-
-// EXTERNAL MODULE: external "react/jsx-runtime"
-var jsx_runtime_ = __webpack_require__("F5FC");
-
-// EXTERNAL MODULE: external "react"
-var external_react_ = __webpack_require__("cDcd");
-var external_react_default = /*#__PURE__*/__webpack_require__.n(external_react_);
-
-// EXTERNAL MODULE: ./components/elements/common/Logo.js
-var Logo = __webpack_require__("MbC5");
-
-// EXTERNAL MODULE: ./components/shared/headers/modules/SearchHeader.jsx
-var SearchHeader = __webpack_require__("coPK");
-
-// EXTERNAL MODULE: ./components/shared/navigation/NavigationDefault.jsx
-var NavigationDefault = __webpack_require__("e0C1");
-
-// EXTERNAL MODULE: ./components/shared/headers/modules/HeaderActions.jsx
-var HeaderActions = __webpack_require__("rUi8");
-
-// EXTERNAL MODULE: ./utilities/common-helpers.js
-var common_helpers = __webpack_require__("4lSd");
-
-// EXTERNAL MODULE: ./components/shared/menus/MenuCategoriesDropdown.js
-var MenuCategoriesDropdown = __webpack_require__("GrT+");
-
-// CONCATENATED MODULE: ./components/shared/headers/modules/GoogleComponent.jsx
-
-const proxyUrl = "https://cors-anywhere.herokuapp.com/";
-const GoogleComponent_requestOptions = {
-  headers: 'Access-Control-Allow-Origin: *'
-};
-class GoogleComponent_GoogleComponent extends external_react_["Component"] {
-  constructor(props) {
-    super(props);
-    this.state = {
-      collection: null,
-      collectionShow: false,
-      place: '',
-      allowCountry: '',
-      location: '',
-      returnData: {},
-      currentLocation: '',
-      currentCoordinates: {},
-      liStyle: '',
-      proxyUrl: " "
-    };
-  }
-
-  async componentDidMount() {
-    await this.setState({
-      liStyle: this.props.locationListStyle ? this.props.locationListStyle : 'style-list'
-    });
-
-    let _ico = /*#__PURE__*/external_react_default.a.createElement("img", {
-      className: 'current-loc-ico',
-      src: "https://www.materialui.co/materialIcons/maps/my_location_black_192x192.png"
-    });
-
-    let _current = /*#__PURE__*/external_react_default.a.createElement("li", {
-      className: this.state.liStyle,
-      onClick: () => this.getCurrentLocation()
-    }, _ico, "Current Location");
-
-    this.setState({
-      currentLocation: _current
-    });
-    document.addEventListener("mousedown", e => this.handleClickOutside(e));
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener("mousedown", e => this.handleClickOutside(e));
-  }
-
-  setWrapperRef(node) {
-    this.wrapperRef = node;
-  }
-
-  handleClickOutside(event) {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      this.setState({
-        collectionShow: false
-      });
-    }
-  }
-
-  getInfo(param) {
-    let child = [];
-
-    let _co = this.props.country ? 'components=' + this.props.country + '&' : '';
-
-    let _lang = this.props.language ? 'language=' + this.props.language + '&' : '';
-
-    if (this.props.apiKey) {
-      let _fire = fetch(proxyUrl + 'https://maps.googleapis.com/maps/api/place/autocomplete/json?input=' + param + '&' + _lang + _co + '&key=' + this.props.apiKey);
-
-      _fire.then(dataJson => {
-        return dataJson.json().then(data => {
-          if (data.status == "OK" && data.predictions.length > 0) {
-            for (let loc = 0; loc < data.predictions.length; loc++) {
-              child.push( /*#__PURE__*/external_react_default.a.createElement("li", {
-                key: loc,
-                className: this.state.liStyle,
-                onClick: () => this.arrangeList(data.predictions[loc].description)
-              }, data.predictions[loc].description));
-            }
-          } else if (data.state == "REQUEST_DENIED") {
-            child.push( /*#__PURE__*/external_react_default.a.createElement("li", {
-              className: this.state.liStyle
-            }, data.error_message));
-          } else {
-            child.push( /*#__PURE__*/external_react_default.a.createElement("li", {
-              className: this.state.liStyle
-            }, "NO Result Found"));
-          }
-
-          let collection = /*#__PURE__*/external_react_default.a.createElement("ul", {
-            className: 'style-unordered-list'
-          }, child);
-          this.setState({
-            collection: collection,
-            collectionShow: true
-          });
-        });
-      }).catch(error => {
-        this.setState({
-          proxyUrl: proxyUrl
-        });
-      });
-    } else {
-      child.push( /*#__PURE__*/external_react_default.a.createElement("li", {
-        className: this.state.liStyle
-      }, "No Api Key Provided"));
-      let collection = /*#__PURE__*/external_react_default.a.createElement("ul", {
-        className: 'style-unordered-list'
-      }, child);
-      this.setState({
-        collection: collection,
-        collectionShow: true
-      });
-    }
-  }
-
-  getCoordinates(address) {
-    if (this.props.apiKey) {
-      let _fire = fetch(proxyUrl + 'https://maps.googleapis.com/maps/api/geocode/json?address=' + address + '&key=' + this.props.apiKey);
-
-      return _fire.then(resp => {
-        return resp.json().then(res => {
-          return res;
-        });
-      }).catch(error => {
-        this.setState({
-          proxyUrl: proxyUrl
-        });
-      });
-    }
-  }
-
-  getCurrentLocation() {
-    if (this.props.apiKey) {
-      navigator.geolocation.getCurrentPosition(location => {
-        var obj = "latlng=" + location.coords.latitude + "," + location.coords.longitude;
-
-        let _fire = fetch(proxyUrl + 'https://maps.googleapis.com/maps/api/geocode/json?' + obj + '&key=' + this.props.apiKey);
-
-        return _fire.then(resp => {
-          return resp.json().then(res => {
-            this._returnData(res.results[0].formatted_address);
-
-            this.setState({
-              collectionShow: false
-            });
-          });
-        }).catch(error => {
-          this.setState({
-            proxyUrl: proxyUrl
-          });
-        });
-      });
-    }
-  }
-
-  arrangeList(place) {
-    this._returnData(place);
-
-    this.setState({
-      collectionShow: false
-    });
-  }
-
-  arrangeValue(item) {
-    this.getInfo(item);
-    this.setState({
-      place: item
-    });
-    this.state.returnData.place = item;
-    this.state.returnData.coordinates = "";
-
-    if (this.props.onChange) {
-      this.props.onChange(this.state.returnData);
-    }
-  }
-
-  async _returnData(place) {
-    this.setState({
-      place: place
-    });
-    let location = {};
-    location = await this.getCoordinates(place);
-    this.state.returnData.place = place;
-
-    if (this.props.coordinates) {
-      if (location.status == 'OK') {
-        this.state.returnData.coordinates = location.results[0].geometry.location;
-      } else {
-        this.state.returnData.coordinates = "Error";
-      }
-    } else {
-      this.state.returnData.coordinates = "Coordinates return false by props";
-    }
-
-    if (this.props.onChange) {
-      this.props.onChange(this.state.returnData);
-    }
-  }
-
-  render() {
-    return /*#__PURE__*/external_react_default.a.createElement("div", {
-      className: 'location-box-cover',
-      ref: node => this.setWrapperRef(node)
-    }, /*#__PURE__*/external_react_default.a.createElement("input", {
-      type: "text",
-      className: this.props.locationBoxStyle ? this.props.locationBoxStyle : 'location-box',
-      onChange: e => this.arrangeValue(e.target.value),
-      placeholder: 'Start Typing Location',
-      value: this.state.place,
-      title: this.state.place
-    }), this.state.collectionShow ? /*#__PURE__*/external_react_default.a.createElement("div", {
-      className: "google-covert"
-    }, this.state.currentLocation, this.state.collection) : null);
-  }
-
-}
-// CONCATENATED MODULE: ./components/shared/headers/modules/SearchLocationInput.jsx
-
-
-
-const API_KEY = 'AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y'; // how to get key - step are below
-
-class SearchLocationInput_SearchLocationInput extends external_react_["Component"] {
-  constructor(props) {
-    super(props);
-    this.state = {
-      place: null
-    };
-  }
-
-  render() {
-    return /*#__PURE__*/Object(jsx_runtime_["jsx"])(GoogleComponent_GoogleComponent, {
-      apiKey: API_KEY,
-      language: 'en',
-      country: 'country:in|country:us',
-      coordinates: true,
-      currentCoordinates: {
-        "lat": 22.672179200000002,
-        "lng": 88.39168
-      },
-      placeholder: 'Start typing location',
-      locationBoxStyle: 'search-location-input',
-      locationListStyle: 'custom-style-list',
-      onChange: e => {
-        this.setState({
-          place: e
-        });
-      }
-    });
-  }
-
-}
-
-/* harmony default export */ var modules_SearchLocationInput = (SearchLocationInput_SearchLocationInput);
-// EXTERNAL MODULE: ./components/helpers/networks.js
-var networks = __webpack_require__("yTuJ");
-
-// EXTERNAL MODULE: ./components/helpers/context.js
-var context = __webpack_require__("EMJx");
-
-// CONCATENATED MODULE: ./components/shared/headers/modules/Hyperlocation.jsx
-
-
-
-
-
-
-
-const Hyperlocation = props => {
-  const {
-    0: address,
-    1: setaddress
-  } = Object(external_react_["useState"])([]);
-
-  async function getaddress() {
-    console.log("123 ", localStorage.getItem("token"));
-    let data;
-    const token = await networks["a" /* default */].getToken(); //console.log("new token11",localStorage.getItem("token"));
-
-    data = await networks["a" /* default */].dashboardData();
-    console.log("new data", data);
-    const tempaddress = data && data.data.data.userInfo.userAddress;
-    console.log("123 address>>", tempaddress);
-    setaddress(tempaddress);
-  }
-
-  const setdelivery = item => {
-    console.log('deliverymethod', item);
-    localStorage.setItem('deliverymethod', item);
-  };
-
-  const setlat = (lat, long) => {
-    localStorage.setItem('latitude', lat);
-    localStorage.setItem('longitude', long);
-    window.location.href = '/';
-  };
-
-  Object(external_react_["useEffect"])(() => {
-    getaddress();
-  }, []); // Views
-
-  let mainCarouselView;
-
-  if (address) {
-    // if (banners) {
-    const carouseItems = address.map((item, key1) =>
-    /*#__PURE__*/
-    // <div className="slide-item" key={item.id}>
-    Object(jsx_runtime_["jsx"])("div", {
-      className: "slide-item",
-      children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("a", {
-        href: "#",
-        onClick: () => setlat(item.endUserlatitude, item.endUserLongitude),
-        children: [item.endUserDeliveraddress, ",", item.endUserStat, ",", item.endUserCity]
-      })
-    }, key1 + 1));
-    mainCarouselView = carouseItems;
-  }
-
-  return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-    className: "popup-box",
-    children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-      className: "box",
-      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
-        className: "close-icon",
-        onClick: props.handleClose,
-        children: "x"
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-        type: "button",
-        value: "Pickup from store",
-        onClick: () => setdelivery(1)
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-        type: "button",
-        value: "Home Delivery",
-        onClick: () => setdelivery(2)
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), "    ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-        type: "button",
-        value: "Add Location"
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), mainCarouselView]
-    })
-  });
-};
-
-/* harmony default export */ var modules_Hyperlocation = (Hyperlocation);
-// CONCATENATED MODULE: ./components/shared/headers/HeaderDefault.jsx
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("F5FC");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("cDcd");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _components_elements_common_Logo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("MbC5");
+/* harmony import */ var _components_shared_headers_modules_SearchHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("coPK");
+/* harmony import */ var _components_shared_navigation_NavigationDefault__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("e0C1");
+/* harmony import */ var _components_shared_headers_modules_HeaderActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("rUi8");
+/* harmony import */ var _utilities_common_helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("4lSd");
+/* harmony import */ var _components_shared_menus_MenuCategoriesDropdown__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("GrT+");
+/* harmony import */ var _components_shared_headers_modules_Hyperlocation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("u2IT");
 
 
 
@@ -2810,15 +2455,15 @@ const HeaderDefault = () => {
   const {
     0: isOpen,
     1: setIsOpen
-  } = Object(external_react_["useState"])(false);
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
   const {
     0: address,
     1: setaddress
-  } = Object(external_react_["useState"])(false);
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
   const {
     0: deliverymethod,
     1: setdeliverymethod
-  } = Object(external_react_["useState"])(false);
+  } = Object(react__WEBPACK_IMPORTED_MODULE_1__["useState"])(false);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -2837,63 +2482,68 @@ const HeaderDefault = () => {
     }).catch(error => {});
   }
 
-  Object(external_react_["useEffect"])(() => {
+  Object(react__WEBPACK_IMPORTED_MODULE_1__["useEffect"])(() => {
     if (false) {}
 
     getcurrentaddress();
   }, []);
   let delivery;
   let fulladdress;
+  let addresstype = '';
+  fulladdress = address;
 
   if (deliverymethod == 1) {
-    delivery = 'Store';
+    delivery = 'Pickup From';
+
+    if (false) {}
   } else {
-    delivery = 'Home';
+    if (false) {}
+
+    delivery = 'Deliverying To ' + addresstype;
   }
 
-  fulladdress = address;
-  return /*#__PURE__*/Object(jsx_runtime_["jsxs"])("header", {
+  return /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("header", {
     className: "header header--1",
     "data-sticky": "true",
     id: "headerSticky",
-    children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+    children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
       className: "header__top",
-      children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+      children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
         className: "ps-container",
-        children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+        children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
           className: "header__left",
-          children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(Logo["a" /* default */], {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])(MenuCategoriesDropdown["a" /* default */], {})]
-        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+          children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_elements_common_Logo__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"], {}), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_menus_MenuCategoriesDropdown__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"], {})]
+        }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
           className: "header__center",
-          children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(SearchHeader["a" /* default */], {})
-        }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+          children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_SearchHeader__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"], {})
+        }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
           className: "header__center",
-          children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("a", {
+          children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("a", {
             className: "address_holder",
             onClick: togglePopup,
-            children: [delivery, " Pickupllllll,", /*#__PURE__*/Object(jsx_runtime_["jsx"])("br", {}), fulladdress]
-          }), isOpen && /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_Hyperlocation, {
-            content: /*#__PURE__*/Object(jsx_runtime_["jsxs"])(jsx_runtime_["Fragment"], {
-              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("b", {
+            children: [delivery, ",", /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("br", {}), fulladdress]
+          }), isOpen && /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_Hyperlocation__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"], {
+            content: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
+              children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("b", {
                 children: "Design your Popup"
-              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("p", {
+              }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("p", {
                 children: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("button", {
+              }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("button", {
                 children: "Test button"
               })]
             }),
             handleClose: togglePopup
           })]
-        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+        }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
           className: "header__right",
-          children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(HeaderActions["a" /* default */], {})
+          children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_HeaderActions__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"], {})
         })]
       })
-    }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(NavigationDefault["a" /* default */], {})]
+    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_navigation_NavigationDefault__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"], {})]
   });
 };
 
-/* harmony default export */ var headers_HeaderDefault = __webpack_exports__["a"] = (HeaderDefault);
+/* harmony default export */ __webpack_exports__["a"] = (HeaderDefault);
 
 /***/ }),
 
@@ -5596,6 +5246,7 @@ const mapStateToProps = state => {
 module.exports = {
   baseUrl: 'https://omnikeyzapi.herokuapp.com',
   dashboardData: '/rs/v1/master/getDashboardDetails',
+  productDetails: '/rs/v1/master/getProductDetailsByProductId',
   auth: '/oauth/token'
 };
 
@@ -6311,6 +5962,261 @@ const ContainerPage = ({
 
 /***/ }),
 
+/***/ "u2IT":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+
+// EXTERNAL MODULE: external "react/jsx-runtime"
+var jsx_runtime_ = __webpack_require__("F5FC");
+
+// EXTERNAL MODULE: external "react"
+var external_react_ = __webpack_require__("cDcd");
+
+// EXTERNAL MODULE: external "react-places-autocomplete"
+var external_react_places_autocomplete_ = __webpack_require__("KOAY");
+var external_react_places_autocomplete_default = /*#__PURE__*/__webpack_require__.n(external_react_places_autocomplete_);
+
+// CONCATENATED MODULE: ./components/shared/headers/modules/LocationSearchInputFun.jsx
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+const initial = {
+  lat: '',
+  lng: ''
+};
+
+function LocationSearchInputFun() {
+  const {
+    0: address,
+    1: setAddress
+  } = Object(external_react_["useState"])('');
+  const {
+    0: latLng,
+    1: setLatLng
+  } = Object(external_react_["useState"])(initial);
+
+  const handleChange = address => {
+    setAddress(address);
+  };
+
+  const handleChangeLatLng = latLngObj => {
+    setLatLng(latLngObj);
+  };
+
+  const handleSelect = address => {
+    Object(external_react_places_autocomplete_["geocodeByAddress"])(address).then(results => Object(external_react_places_autocomplete_["getLatLng"])(results[0])).then(latLng => {
+      setAddress(address);
+      setLatLng(latLng);
+      console.log('Success', latLng);
+    }).catch(error => {
+      setLatLng({});
+      console.error('Error', error);
+    });
+  };
+
+  return /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_places_autocomplete_default.a, {
+    value: address,
+    onChange: handleChange,
+    onSelect: handleSelect,
+    children: ({
+      getInputProps,
+      suggestions,
+      getSuggestionItemProps,
+      loading
+    }) => /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("input", _objectSpread({}, getInputProps({
+        placeholder: 'Search Places ...',
+        className: 'location-search-input'
+      }))), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+        className: "autocomplete-dropdown-container",
+        children: [loading && /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+          children: "Loading..."
+        }), suggestions.map((suggestion, i) => {
+          const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'; // inline style for demonstration purpose
+
+          const style = suggestion.active ? {
+            backgroundColor: '#fafafa',
+            cursor: 'pointer'
+          } : {
+            backgroundColor: '#ffffff',
+            cursor: 'pointer'
+          };
+          return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", _objectSpread(_objectSpread({}, getSuggestionItemProps(suggestion, {
+            className,
+            style
+          })), {}, {
+            children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
+              children: suggestion.description
+            })
+          }), i);
+        })]
+      })]
+    })
+  });
+}
+
+/* harmony default export */ var modules_LocationSearchInputFun = (LocationSearchInputFun);
+// CONCATENATED MODULE: ./components/shared/headers/modules/SearchLocationInput.jsx
+
+
+
+const API_KEY = 'AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y'; // how to get key - step are below
+
+class SearchLocationInput_SearchLocationInput extends external_react_["Component"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      place: null
+    };
+  }
+
+  render() {
+    return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_LocationSearchInputFun, {})
+    });
+  }
+
+}
+
+/* harmony default export */ var modules_SearchLocationInput = (SearchLocationInput_SearchLocationInput);
+// EXTERNAL MODULE: ./components/helpers/networks.js
+var networks = __webpack_require__("yTuJ");
+
+// EXTERNAL MODULE: ./components/helpers/context.js
+var context = __webpack_require__("EMJx");
+
+// CONCATENATED MODULE: ./components/shared/headers/modules/Hyperlocation.jsx
+
+
+
+
+
+
+
+const Hyperlocation = props => {
+  const {
+    0: address,
+    1: setaddress
+  } = Object(external_react_["useState"])([]);
+  const {
+    0: storeinfo,
+    1: setstoreinfo
+  } = Object(external_react_["useState"])([]);
+  const {
+    0: storename,
+    1: setstorename
+  } = Object(external_react_["useState"])([]);
+
+  async function getaddress() {
+    console.log("123 ", localStorage.getItem("token"));
+    let data;
+    const token = await networks["a" /* default */].getToken(); //console.log("new token11",localStorage.getItem("token"));
+
+    data = await networks["a" /* default */].dashboardData();
+    console.log("new data", data);
+    const tempaddress = data && data.data.data.userInfo.userAddress;
+    const tempstoreadress = data && data.data.data.storeAddress;
+    const tempstorename = data && data.data.data.storeName;
+    localStorage.setItem('storename', tempstorename);
+    localStorage.setItem('storeaddress', tempstoreadress);
+    console.log("123 address>>", tempaddress);
+    setaddress(tempaddress);
+    setstoreinfo(tempstoreadress);
+    setstorename(tempstorename);
+  }
+
+  const setdelivery = item => {
+    console.log('deliverymethod', item);
+    localStorage.setItem('deliverymethod', item);
+  };
+
+  const setlat = (lat, long, address, state, city, addresstype) => {
+    localStorage.setItem('latitude', lat);
+    localStorage.setItem('longitude', long);
+    localStorage.setItem('address', address);
+    localStorage.setItem('state', state);
+    localStorage.setItem('city', city);
+    localStorage.setItem('addresstype', addresstype);
+    console.log('new lat', localStorage.getItem('latitude'));
+    console.log('new longitude', localStorage.getItem('longitude'));
+    window.location.href = '/';
+  };
+
+  const setcurrent = () => {
+    navigator.geolocation.getCurrentPosition(function (position) {
+      localStorage.setItem('latitude', position.coords.latitude);
+      localStorage.setItem('longitude', position.coords.longitude);
+      console.log("current Latitude is :", localStorage.getItem('latitude'));
+      console.log("current Longitude is :", localStorage.getItem('longitude'));
+    });
+    window.location.href = '/';
+  };
+
+  Object(external_react_["useEffect"])(() => {
+    getaddress();
+  }, []); // Views
+
+  let mainCarouselView;
+
+  if (address) {
+    // if (banners) {
+    const carouseItems = address.map((item, key1) =>
+    /*#__PURE__*/
+    // <div className="slide-item" key={item.id}>
+    Object(jsx_runtime_["jsx"])("div", {
+      className: "slide-item",
+      children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("a", {
+        href: "#",
+        onClick: () => setlat(item.endUserlatitude, item.endUserLongitude, item.endUserDeliveraddress, item.endUserStat, item.endUserCity, item.addressType),
+        children: [item.endUserDeliveraddress, ",", item.endUserStat, ",", item.endUserCity]
+      })
+    }, key1 + 1));
+    mainCarouselView = carouseItems;
+  }
+
+  return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+    className: "popup-box",
+    children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+      className: "box",
+      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
+        className: "close-icon",
+        onClick: props.handleClose,
+        children: "x"
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+        type: "button",
+        value: "Pickup from store",
+        onClick: () => setdelivery(1)
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+        type: "button",
+        value: "Home Delivery",
+        onClick: () => setdelivery(2)
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), "    ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+        type: "button",
+        value: "Add Location"
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("p", {
+        children: [" ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+          href: "#",
+          onClick: () => setcurrent(),
+          children: "Use Current Location"
+        })]
+      }), mainCarouselView]
+    })
+  });
+};
+
+/* harmony default export */ var modules_Hyperlocation = __webpack_exports__["a"] = (Hyperlocation);
+
+/***/ }),
+
 /***/ "vNVm":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -6788,12 +6694,15 @@ const Network = {
   },
   dashboardData: async () => {
     return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(function (position) {
-        localStorage.setItem('latitude', position.coords.latitude);
-        localStorage.setItem('longitude', position.coords.longitude);
-        console.log("Latitude is :", localStorage.getItem('latitude'));
-        console.log("Longitude is :", localStorage.getItem('longitude'));
-      });
+      if (window.localStorage.getItem('longitude') == null) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          localStorage.setItem('latitude', position.coords.latitude);
+          localStorage.setItem('longitude', position.coords.longitude);
+          console.log("Latitude is :", localStorage.getItem('latitude'));
+          console.log("Longitude is :", localStorage.getItem('longitude'));
+        });
+      }
+
       var data = {
         channelId: 2,
         customerId: 1,
@@ -6805,6 +6714,37 @@ const Network = {
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default()({
         url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.dashboardData,
+        method: 'post',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token') + '',
+          'Content-Type': 'application/json'
+        }
+      }).then(data => {
+        resolve(data);
+      }).catch(err => reject(err));
+    });
+  },
+  productDetails: async pid => {
+    return new Promise((resolve, reject) => {
+      if (window.localStorage.getItem('longitude') == null) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          localStorage.setItem('latitude', position.coords.latitude);
+          localStorage.setItem('longitude', position.coords.longitude);
+          console.log("Latitude is :", localStorage.getItem('latitude'));
+          console.log("Longitude is :", localStorage.getItem('longitude'));
+        });
+      }
+
+      var data = {
+        channelId: 2,
+        customerId: 1,
+        language: 'ENG',
+        userId: 2,
+        storeId: 1
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.productDetails + '?CustomerID=1&StoreID=1&LanguageCode=ENG&ProductID=' + pid + '&ChannelID=2',
         method: 'post',
         data: data,
         headers: {

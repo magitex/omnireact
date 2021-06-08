@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { GoogleComponent } from  '~/components/shared/headers/modules/GoogleComponent'; 
+import LocationSearchInputFun from  '~/components/shared/headers/modules/LocationSearchInputFun'; 
 
 const API_KEY = 'AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y'  // how to get key - step are below
 
@@ -14,21 +14,9 @@ class SearchLocationInput extends Component {
   render() {
     return (
       <div >
-         <GoogleComponent
+         <LocationSearchInputFun />
          
-          apiKey={API_KEY}
-          language={'en'}
-          country={'country:in'}
-          coordinates={true}
-          currentCoordinates={{
-            "lat": localStorage.getItem('latitude'),
-            "lng": localStorage.getItem('longitude')
-          }}
-          placeholder={'Start typing location'}
-          locationBoxStyle={'custom-style'}
-          locationListStyle={'custom-style-list'}
-          onChange={(e) => { this.setState({ place: e }) }} />
-      </div>
+        </div>
 
     )
   } 

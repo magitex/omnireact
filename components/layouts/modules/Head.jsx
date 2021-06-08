@@ -15,6 +15,7 @@ const StyleSheets = () => (
         <meta name="author" content="nouthemes" />
         <meta name="keywords" content="Martfury, React, eCommerce, Template" />
         <meta name="description" content="Martfury - React eCommerce Template" />
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y&amp;libraries=places"></script>
         <link
             href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,600,700&amp;amp;subset=latin-ext"
             rel="stylesheet"

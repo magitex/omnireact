@@ -1,0 +1,1 @@
+{"ast":null,"code":"import { jsx as _jsx } from \"react/jsx-runtime\";\nimport React from 'react';\n\nconst PartialDescription = ({\n  product\n}) => /*#__PURE__*/_jsx(\"div\", {\n  className: \"ps-document\",\n  children: product.productDescLarge\n});\n\nexport default PartialDescription;","map":null,"metadata":{},"sourceType":"module"}

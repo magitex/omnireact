@@ -8474,7 +8474,7 @@ var external_react_google_autocomplete_default = /*#__PURE__*/__webpack_require_
 var external_react_geocode_ = __webpack_require__("GNgB");
 var external_react_geocode_default = /*#__PURE__*/__webpack_require__.n(external_react_geocode_);
 
-// CONCATENATED MODULE: ./components/shared/headers/modules/Map.js
+// CONCATENATED MODULE: ./components/shared/headers/modules/Map.jsx
 
 
 
@@ -8780,7 +8780,7 @@ class Map_Map extends external_react_default.a.Component {
 }
 
 /* harmony default export */ var modules_Map = (Map_Map);
-// CONCATENATED MODULE: ./components/shared/headers/modules/Googlemap.js
+// CONCATENATED MODULE: ./components/shared/headers/modules/Googlemap.jsx
 
 
 

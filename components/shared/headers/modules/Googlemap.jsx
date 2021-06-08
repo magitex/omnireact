@@ -13,7 +13,7 @@ class Googlemap extends Component {
 					zoom={15}
 				/>
 			</div>
-		);
+		)
 	}
 }
 

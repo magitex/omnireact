@@ -246,17 +246,9 @@ class Map extends React.Component{constructor( props ){
      />
     </div>} else {
    map = <div style={{height: this.props.height}} />
-  }  
-  render()
-  {
-    return(
-      
-        map 
-        
-        )   
-  } 
-
-
+  }
+  
+  return( map ) 
  }
 }
 export default Map

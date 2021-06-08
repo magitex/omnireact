@@ -15,7 +15,7 @@ function LocationSearchInputFun() {
         setAddress(address);
     };
     const handleChangeLatLng = (latLngObj) => {
-        setLatLng(latLngObj);
+        setLatLng(yarn );
     };
     
     const handleSelect = (address) => {

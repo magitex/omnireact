@@ -5362,6 +5362,7 @@ module.exports = {
   baseUrl: 'https://omnikeyzapi.herokuapp.com',
   dashboardData: '/rs/v1/master/getDashboardDetails',
   productDetails: '/rs/v1/master/getProductDetailsByProductId',
+  saveUserAddress: '/rs/v1/master/saveUserAddress',
   auth: '/oauth/token'
 };
 
@@ -6100,11 +6101,23 @@ var external_react_google_autocomplete_default = /*#__PURE__*/__webpack_require_
 var external_react_geocode_ = __webpack_require__("GNgB");
 var external_react_geocode_default = /*#__PURE__*/__webpack_require__.n(external_react_geocode_);
 
+// EXTERNAL MODULE: ./components/helpers/networks.js
+var networks = __webpack_require__("yTuJ");
+
+// EXTERNAL MODULE: ./components/helpers/context.js
+var context = __webpack_require__("EMJx");
+
+// EXTERNAL MODULE: external "antd"
+var external_antd_ = __webpack_require__("Exp3");
+
 // CONCATENATED MODULE: ./components/shared/headers/modules/Map.jsx
 
 
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 
 
@@ -6127,6 +6140,17 @@ class Map_Map extends external_react_default.a.Component {
       }
     });
 
+    _defineProperty(this, "getpinCode", addressArray => {
+      let pinCode = '';
+
+      for (let i = 0; i < addressArray.length; i++) {
+        if (addressArray[i].types[0] && 'postal_code' === addressArray[i].types[0]) {
+          pinCode = addressArray[i].long_name;
+          return pinCode;
+        }
+      }
+    });
+
     _defineProperty(this, "getArea", addressArray => {
       let area = '';
 
@@ -6143,6 +6167,7 @@ class Map_Map extends external_react_default.a.Component {
     });
 
     _defineProperty(this, "getState", addressArray => {
+      console.log('completeaddrsss', addressArray);
       let state = '';
 
       for (let i = 0; i < addressArray.length; i++) {
@@ -6169,6 +6194,7 @@ class Map_Map extends external_react_default.a.Component {
             city = this.getCity(addressArray),
             area = this.getArea(addressArray),
             state = this.getState(addressArray),
+            pinCode = this.getpinCode(addressArray),
             latValue = place.geometry.location.lat(),
             lngValue = place.geometry.location.lng(); // Set these values in the state.
 
@@ -6177,6 +6203,7 @@ class Map_Map extends external_react_default.a.Component {
         area: area ? area : '',
         city: city ? city : '',
         state: state ? state : '',
+        pinCode: pinCode ? pinCode : '',
         markerPosition: {
           lat: latValue,
           lng: lngValue
@@ -6186,6 +6213,24 @@ class Map_Map extends external_react_default.a.Component {
           lng: lngValue
         }
       });
+    });
+
+    _defineProperty(this, "modalSuccess", type => {
+      external_antd_["notification"][type]({
+        message: 'Success',
+        description: 'This address is saved!',
+        duration: 20
+      });
+    });
+
+    _defineProperty(this, "handleSubmit", event => {
+      let data;
+      event.preventDefault();
+      const token = networks["a" /* default */].getToken();
+      data = networks["a" /* default */].saveUserAddress(this.state);
+      console.log('city', this.state);
+      console.log('return', data);
+      this.modalSuccess('success'); //this.yarn();
     });
 
     _defineProperty(this, "onMarkerDragEnd", event => {
@@ -6198,12 +6243,14 @@ class Map_Map extends external_react_default.a.Component {
               addressArray = response.results[0].address_components,
               city = this.getCity(addressArray),
               area = this.getArea(addressArray),
-              state = this.getState(addressArray);
+              state = this.getState(addressArray),
+              pinCode = this.getpinCode(addressArray);
         this.setState({
           address: address ? address : '',
           area: area ? area : '',
           city: city ? city : '',
-          state: state ? state : ''
+          state: state ? state : '',
+          pinCode: pinCode ? pinCode : ''
         });
       }, error => {
         console.error(error);
@@ -6215,6 +6262,8 @@ class Map_Map extends external_react_default.a.Component {
       city: '',
       area: '',
       state: '',
+      pinCode: '',
+      type: 'Home',
       mapPosition: {
         lat: this.props.center.lat,
         lng: this.props.center.lng
@@ -6236,13 +6285,15 @@ class Map_Map extends external_react_default.a.Component {
             addressArray = response.results[0].address_components,
             city = this.getCity(addressArray),
             area = this.getArea(addressArray),
-            state = this.getState(addressArray);
-      console.log('city', city, area, state);
+            state = this.getState(addressArray),
+            pinCode = this.getpinCode(addressArray);
+      console.log('city', city, area, state, pinCode);
       this.setState({
         address: address ? address : '',
         area: area ? area : '',
         city: city ? city : '',
-        state: state ? state : ''
+        state: state ? state : '',
+        pinCode: pinCode ? pinCode : ''
       });
     }, error => {
       console.error(error);
@@ -6257,7 +6308,7 @@ class Map_Map extends external_react_default.a.Component {
   * @return {boolean}
   */
   shouldComponentUpdate(nextProps, nextState) {
-    if (this.state.markerPosition.lat !== this.props.center.lat || this.state.address !== nextState.address || this.state.city !== nextState.city || this.state.area !== nextState.area || this.state.state !== nextState.state) {
+    if (this.state.markerPosition.lat !== this.props.center.lat || this.state.address !== nextState.address || this.state.city !== nextState.city || this.state.area !== nextState.area || this.state.state !== nextState.state || this.state.pinCode !== nextState.pinCode) {
       return true;
     } else if (this.props.center.lat === nextProps.center.lat) {
       return false;
@@ -6318,79 +6369,125 @@ class Map_Map extends external_react_default.a.Component {
     let map;
 
     if (this.props.center.lat !== undefined) {
-      map = /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-        children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+      map = /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+        children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("form", {
+          onSubmit: this.handleSubmit,
           children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-            className: "form-group",
-            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
-              htmlFor: "",
-              children: "City"
-            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-              type: "text",
-              name: "city",
-              className: "form-control",
-              onChange: this.onChange,
-              readOnly: "readOnly",
-              value: this.state.city
+            children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+              className: "form-group",
+              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+                htmlFor: "",
+                children: "City"
+              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+                type: "text",
+                name: "city",
+                className: "form-control",
+                onChange: this.onChange,
+                readOnly: "readOnly",
+                value: this.state.city
+              })]
+            }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+              className: "form-group",
+              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+                htmlFor: "",
+                children: "Area"
+              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+                type: "text",
+                name: "area",
+                className: "form-control",
+                onChange: this.onChange,
+                readOnly: "readOnly",
+                value: this.state.area
+              })]
+            }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+              className: "form-group",
+              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+                htmlFor: "",
+                children: "Pin Code"
+              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+                type: "text",
+                name: "pinCode",
+                className: "form-control",
+                onChange: this.onChange,
+                readOnly: "readOnly",
+                value: this.state.pinCode
+              })]
+            }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+              className: "form-group",
+              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+                htmlFor: "",
+                children: "State"
+              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+                type: "text",
+                name: "state",
+                className: "form-control",
+                onChange: this.onChange,
+                readOnly: "readOnly",
+                value: this.state.state
+              })]
+            }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+              className: "form-group",
+              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+                htmlFor: "",
+                children: "Address"
+              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+                type: "text",
+                name: "address",
+                className: "form-control",
+                onChange: this.onChange,
+                readOnly: "readOnly",
+                value: this.state.address
+              })]
+            }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+              className: "form-group",
+              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
+                htmlFor: "",
+                children: "Address Save As"
+              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+                type: "radio",
+                name: "type",
+                className: "form-control",
+                onChange: this.onChange,
+                value: "Home",
+                checked: true
+              }), "Home ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+                type: "radio",
+                name: "type",
+                className: "form-control",
+                onChange: this.onChange,
+                value: "Work"
+              }), "Work", /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+                type: "radio",
+                name: "type",
+                className: "form-control",
+                onChange: this.onChange,
+                value: "Others"
+              }), "Others"]
             })]
-          }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-            className: "form-group",
-            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
-              htmlFor: "",
-              children: "Area"
-            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-              type: "text",
-              name: "area",
-              className: "form-control",
-              onChange: this.onChange,
-              readOnly: "readOnly",
-              value: this.state.area
-            })]
-          }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-            className: "form-group",
-            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
-              htmlFor: "",
-              children: "State"
-            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-              type: "text",
-              name: "state",
-              className: "form-control",
-              onChange: this.onChange,
-              readOnly: "readOnly",
-              value: this.state.state
-            })]
-          }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-            className: "form-group",
-            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
-              htmlFor: "",
-              children: "Address"
-            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-              type: "text",
-              name: "address",
-              className: "form-control",
-              onChange: this.onChange,
-              readOnly: "readOnly",
-              value: this.state.address
-            })]
+          }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(AsyncMap, {
+            googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y&libraries=places&country=in",
+            loadingElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+              style: {
+                height: `100%`
+              }
+            }),
+            containerElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+              style: {
+                height: this.props.height
+              }
+            }),
+            mapElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+              style: {
+                height: `100%`
+              }
+            })
+          }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+            children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
+              type: "submit",
+              value: "Add Location"
+            })
           })]
-        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(AsyncMap, {
-          googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y&libraries=places&country=in",
-          loadingElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-            style: {
-              height: `100%`
-            }
-          }),
-          containerElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-            style: {
-              height: this.props.height
-            }
-          }),
-          mapElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-            style: {
-              height: `100%`
-            }
-          })
-        })]
+        })
       });
     } else {
       map = /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
@@ -6455,12 +6552,6 @@ class SearchLocationInput_SearchLocationInput extends external_react_["Component
 }
 
 /* harmony default export */ var modules_SearchLocationInput = (SearchLocationInput_SearchLocationInput);
-// EXTERNAL MODULE: ./components/helpers/networks.js
-var networks = __webpack_require__("yTuJ");
-
-// EXTERNAL MODULE: ./components/helpers/context.js
-var context = __webpack_require__("EMJx");
-
 // CONCATENATED MODULE: ./components/shared/headers/modules/Hyperlocation.jsx
 
 
@@ -6566,10 +6657,7 @@ const Hyperlocation = props => {
         type: "button",
         value: "Home Delivery",
         onClick: () => setdelivery(2)
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), "    ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-        type: "button",
-        value: "Add Location"
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("p", {
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("p", {
         children: [" ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
           href: "#",
           onClick: () => setcurrent(),
@@ -7112,6 +7200,43 @@ const Network = {
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default()({
         url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.productDetails + '?CustomerID=1&StoreID=1&LanguageCode=ENG&ProductID=' + pid + '&ChannelID=2',
+        method: 'post',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token') + '',
+          'Content-Type': 'application/json'
+        }
+      }).then(data => {
+        resolve(data);
+      }).catch(err => reject(err));
+    });
+  },
+  saveUserAddress: async postvar => {
+    return new Promise((resolve, reject) => {
+      if (window.localStorage.getItem('longitude') == null) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          localStorage.setItem('latitude', position.coords.latitude);
+          localStorage.setItem('longitude', position.coords.longitude);
+          console.log("Latitude is :", localStorage.getItem('latitude'));
+          console.log("Longitude is :", localStorage.getItem('longitude'));
+        });
+      }
+
+      console.log("post:", postvar);
+      var data = {
+        address: postvar.address,
+        addressType: postvar.type,
+        city: postvar.city,
+        country: "India",
+        entryUserId: 2,
+        latitude: postvar.markerPosition.lat,
+        longitude: postvar.markerPosition.lng,
+        pinCode: postvar.pinCode,
+        state: postvar.state,
+        userId: 2
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.saveUserAddress,
         method: 'post',
         data: data,
         headers: {

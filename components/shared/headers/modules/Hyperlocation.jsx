@@ -88,11 +88,7 @@ const Hyperlocation = props => {
       value="Home Delivery"
       onClick={() => setdelivery(2)}
     />
-    <SearchLocationInput />    <input
-      type="button"
-      value="Add Location"
-     
-    />
+    <SearchLocationInput />    
     <div ></div>
     <p> <a
                   href="#" onClick={() => setcurrent()}>Use Current Location</a>

@@ -2,6 +2,9 @@ import React from 'react'
 import { withGoogleMap, GoogleMap, withScriptjs, InfoWindow, Marker } from "react-google-maps";
 import Autocomplete from 'react-google-autocomplete';
 import Geocode from "react-geocode";
+import Helper from '~/components/helpers/networks';
+import {HomeContext} from '~/components/helpers/context';
+import { notification } from 'antd';
 Geocode.setApiKey("AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y");
 //Geocode.enableDebug();
 class Map extends React.Component{constructor( props ){
@@ -11,6 +14,8 @@ class Map extends React.Component{constructor( props ){
    city: '',
    area: '',
    state: '',
+   pinCode:'',
+   type: 'Home',
    mapPosition: {
     lat: this.props.center.lat,
     lng: this.props.center.lng
@@ -29,15 +34,17 @@ class Map extends React.Component{constructor( props ){
      addressArray =  response.results[0].address_components,
      city = this.getCity( addressArray ),
      area = this.getArea( addressArray ),
-     state = this.getState( addressArray );
+     state = this.getState( addressArray ),
+     pinCode = this.getpinCode( addressArray );
   
-    console.log( 'city', city, area, state );
+    console.log( 'city', city, area, state, pinCode );
   
     this.setState( {
      address: ( address ) ? address : '',
      area: ( area ) ? area : '',
      city: ( city ) ? city : '',
      state: ( state ) ? state : '',
+     pinCode: ( pinCode ) ? pinCode : '',
     } )
    },
    error => {
@@ -57,7 +64,8 @@ class Map extends React.Component{constructor( props ){
    this.state.address !== nextState.address ||
    this.state.city !== nextState.city ||
    this.state.area !== nextState.area ||
-   this.state.state !== nextState.state
+   this.state.state !== nextState.state ||
+   this.state.pinCode !== nextState.pinCode
   ) {
    return true
   } else if ( this.props.center.lat === nextProps.center.lat ){
@@ -77,7 +85,17 @@ class Map extends React.Component{constructor( props ){
     return city;
    }
   }
- };/**
+ };
+ getpinCode = ( addressArray ) => {
+  let pinCode = '';
+  for( let i = 0; i < addressArray.length; i++ ) {
+   if ( addressArray[ i ].types[0] && 'postal_code' === addressArray[ i ].types[0] ) {
+    pinCode = addressArray[ i ].long_name;
+    return pinCode;
+   }
+  }
+ };
+ /**
   * Get the area and set the area input value to the one selected
   *
   * @param addressArray
@@ -95,13 +113,16 @@ class Map extends React.Component{constructor( props ){
     }
    }
   }
- };/**
+ };
+ 
+ /**
   * Get the address and set the address input value to the one selected
   *
   * @param addressArray
   * @return {string}
   */
  getState = ( addressArray ) => {
+  console.log( 'completeaddrsss', addressArray);
   let state = '';
   for( let i = 0; i < addressArray.length; i++ ) {
    for( let i = 0; i < addressArray.length; i++ ) {
@@ -127,17 +148,19 @@ class Map extends React.Component{constructor( props ){
   * @param place
   */
  onPlaceSelected = ( place ) => {const address = place.formatted_address,
-   addressArray =  place.address_components,
+   addressArray =  place.address_components,   
    city = this.getCity( addressArray ),
    area = this.getArea( addressArray ),
    state = this.getState( addressArray ),
-   latValue = place.geometry.location.lat(),
+   pinCode = this.getpinCode( addressArray ),
+      latValue = place.geometry.location.lat(),
    lngValue = place.geometry.location.lng();// Set these values in the state.
   this.setState({
    address: ( address ) ? address : '',
    area: ( area ) ? area : '',
    city: ( city ) ? city : '',
    state: ( state ) ? state : '',
+   pinCode: ( pinCode ) ? pinCode : '',
    markerPosition: {
     lat: latValue,
     lng: lngValue
@@ -154,6 +177,23 @@ class Map extends React.Component{constructor( props ){
   *
   * @param event
   */
+  modalSuccess = (type) => {
+    notification[type]({
+        message: 'Success',
+        description: 'This address is saved!',
+        duration: 20,
+    });
+};
+ handleSubmit= ( event ) => {
+  let data;
+    event.preventDefault();
+    const token=Helper.getToken();
+    data=Helper.saveUserAddress(this.state);
+    console.log( 'city', this.state);
+    console.log( 'return', data);
+    this.modalSuccess('success');
+    //this.yarn();
+  }
  onMarkerDragEnd = ( event ) => {
   console.log( 'event', event );
   let newLat = event.latLng.lat(),
@@ -164,11 +204,14 @@ class Map extends React.Component{constructor( props ){
      addressArray =  response.results[0].address_components,
      city = this.getCity( addressArray ),
      area = this.getArea( addressArray ),
-     state = this.getState( addressArray );this.setState( {
+     state = this.getState( addressArray ),
+     pinCode = this.getpinCode( addressArray );
+     this.setState( {
      address: ( address ) ? address : '',
      area: ( area ) ? area : '',
      city: ( city ) ? city : '',
-     state: ( state ) ? state : ''
+     state: ( state ) ? state : '',
+     pinCode: ( pinCode ) ? pinCode : ''
     } )
    },
    error => {
@@ -214,6 +257,7 @@ class Map extends React.Component{constructor( props ){
   let map;
   if( this.props.center.lat !== undefined ) {
    map = <div>
+       <form onSubmit={this.handleSubmit}>
      <div>
       <div className="form-group">
        <label htmlFor="">City</label>
@@ -224,12 +268,21 @@ class Map extends React.Component{constructor( props ){
        <input type="text" name="area" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.area }/>
       </div>
       <div className="form-group">
+       <label htmlFor="">Pin Code</label>
+       <input type="text" name="pinCode" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.pinCode }/>
+      </div>
+      <div className="form-group">
        <label htmlFor="">State</label>
        <input type="text" name="state" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.state }/>
       </div>
       <div className="form-group">
        <label htmlFor="">Address</label>
        <input type="text" name="address" className="form-control" onChange={ this.onChange } readOnly="readOnly" value={ this.state.address }/>
+      </div>
+      <div className="form-group">
+       <label htmlFor="">Address Save As</label>
+       <input type="radio" name="type" className="form-control" onChange={ this.onChange }  value='Home' checked/>Home <input type="radio" name="type" className="form-control" onChange={ this.onChange }  value='Work'/>Work
+       <input type="radio" name="type" className="form-control" onChange={ this.onChange }  value='Others'/>Others
       </div>
      </div>
      <AsyncMap
@@ -244,6 +297,12 @@ class Map extends React.Component{constructor( props ){
        <div style={{ height: `100%` }} />
       }
      />
+     <div><input
+      type="submit"
+      value="Add Location"
+     
+    /></div>
+    </form>
     </div>} else {
    map = <div style={{height: this.props.height}} />
   }

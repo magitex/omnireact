@@ -112,6 +112,45 @@ const Network = {
                 .catch((err) => reject(err));
         });
     },
+    saveUserAddress: async (postvar) => {
+        return new Promise((resolve, reject) => {
+            if (window.localStorage.getItem('longitude')== null)
+           {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                localStorage.setItem('latitude', position.coords.latitude);
+                    localStorage.setItem('longitude', position.coords.longitude);
+                console.log("Latitude is :", localStorage.getItem('latitude'));
+                console.log("Longitude is :",localStorage.getItem('longitude'));
+              });
+            }
+            console.log("post:", postvar);
+            var data = {
+                address: postvar.address,
+                addressType: postvar.type,
+                city: postvar.city,
+                country: "India",
+                entryUserId: 2,
+                latitude: postvar.markerPosition.lat,
+                longitude: postvar.markerPosition.lng,
+                pinCode: postvar.pinCode,
+                state: postvar.state,
+                userId: 2
+            };
+            axios({
+                url: serverUrl + config.saveUserAddress,
+                method: 'post',
+                data: data,
+                headers: { 
+                    'Authorization': 'Bearer '+localStorage.getItem('token')+'', 
+                    'Content-Type': 'application/json'
+                  },
+            })
+                .then((data) => {
+                    resolve(data);
+                })
+                .catch((err) => reject(err));
+        });
+    },
 };
 
 export default Network;

@@ -22,7 +22,9 @@ class Map extends React.Component{constructor( props ){
    },
    markerPosition: {
     lat: this.props.center.lat,
-    lng: this.props.center.lng}
+    lng: this.props.center.lng
+  },
+  visibility: false
   }
  }/**
   * Get the current address from the default map position and set those values in the state
@@ -160,6 +162,7 @@ class Map extends React.Component{constructor( props ){
    area: ( area ) ? area : '',
    city: ( city ) ? city : '',
    state: ( state ) ? state : '',
+   visibility: true,
    pinCode: ( pinCode ) ? pinCode : '',
    markerPosition: {
     lat: latValue,
@@ -221,22 +224,14 @@ class Map extends React.Component{constructor( props ){
  };render(){const AsyncMap = withScriptjs(
    withGoogleMap(
     props => (
-     <GoogleMap google={this.props.google}
-      defaultZoom={this.props.zoom}
-      defaultCenter={{ lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng }}
+      <>
+      { this.state.visibility === true ?
+     <GoogleMap google={this.state.visibility === true ? this.props.google : {}}
+     defaultZoom={this.state.visibility === true ? this.props.zoom : 0}
+        defaultCenter={this.state.visibility === true ? { lat: this.state.mapPosition.lat, lng: this.state.mapPosition.lng } : {}}
      >
       {/* For Auto complete Search Box */}
-      <Autocomplete
-       style={{
-        width: '100%',
-        height: '40px',
-        paddingLeft: '16px',
-        marginTop: '2px',
-        marginBottom: '100px'
-       }}
-       onPlaceSelected={ this.onPlaceSelected }
-       types={['(regions)']}
-      />{/*Marker*/}
+      {/*Marker*/}
       <Marker google={this.props.google}
        name={'Dolores park'}
           draggable={true}
@@ -251,12 +246,13 @@ class Map extends React.Component{constructor( props ){
        <div>
         <span style={{ padding: 0, margin: 0 }}>{ this.state.address }</span>
        </div>
-      </InfoWindow></GoogleMap>)
+      </InfoWindow></GoogleMap>: <div></div> } </>)
    )
   );
   let map;
   if( this.props.center.lat !== undefined ) {
    map = <div>
+     {   this.state.visibility == true ?
        <form onSubmit={this.handleSubmit}>
      <div>
       <div className="form-group">
@@ -291,7 +287,7 @@ class Map extends React.Component{constructor( props ){
        <div style={{ height: `100%` }} />
       }
       containerElement={
-       <div style={{ height: this.props.height }} />
+        <div style={{ height: '300px' }} />
       }
       mapElement={
        <div style={{ height: `100%` }} />
@@ -302,8 +298,20 @@ class Map extends React.Component{constructor( props ){
       value="Add Location"
      
     /></div>
-    </form>
-    </div>} else {
+    </form>: ''}
+    <Autocomplete
+       style={{
+        width: '100%',
+        height: '40px',
+        paddingLeft: '16px',
+        marginTop: '2px',
+        marginBottom: '100px'
+       }}
+       onPlaceSelected={ this.onPlaceSelected }
+       types={['(regions)']}
+      /> 
+    </div>
+    } else {
    map = <div style={{height: this.props.height}} />
   }
   

@@ -2444,12 +2444,27 @@ const MobileHeaderActions_mapStateToProps = state => {
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__("cDcd");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_elements_common_Logo__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__("MbC5");
-/* harmony import */ var _components_shared_headers_modules_SearchHeader__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("coPK");
-/* harmony import */ var _components_shared_navigation_NavigationDefault__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("e0C1");
-/* harmony import */ var _components_shared_headers_modules_HeaderActions__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("rUi8");
-/* harmony import */ var _utilities_common_helpers__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("4lSd");
-/* harmony import */ var _components_shared_menus_MenuCategoriesDropdown__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("GrT+");
-/* harmony import */ var _components_shared_headers_modules_Hyperlocation__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("u2IT");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__("YFqc");
+/* harmony import */ var next_link__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(next_link__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _components_shared_headers_modules_SearchHeader__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__("coPK");
+/* harmony import */ var _components_shared_navigation_NavigationDefault__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__("e0C1");
+/* harmony import */ var _components_shared_headers_modules_HeaderActions__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__("rUi8");
+/* harmony import */ var _utilities_common_helpers__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__("4lSd");
+/* harmony import */ var _components_shared_menus_MenuCategoriesDropdown__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__("GrT+");
+/* harmony import */ var _components_shared_headers_modules_Hyperlocation__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__("u2IT");
+/* harmony import */ var _public_static_data_menu__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__("y2E8");
+var _public_static_data_menu__WEBPACK_IMPORTED_MODULE_10___namespace = /*#__PURE__*/__webpack_require__.t("y2E8", 1);
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__("Exp3");
+/* harmony import */ var antd__WEBPACK_IMPORTED_MODULE_11___default = /*#__PURE__*/__webpack_require__.n(antd__WEBPACK_IMPORTED_MODULE_11__);
+/* harmony import */ var _elements_menu_Menu__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__("w957");
+/* harmony import */ var _headers_modules_CurrencyDropdown__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__("s/7F");
+/* harmony import */ var _headers_modules_LanguageSwicher__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__("CLZ7");
+
+
+
+
+
+
 
 
 
@@ -2526,17 +2541,29 @@ const HeaderDefault = () => {
         className: "ps-container",
         children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
           className: "header__left",
-          children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_elements_common_Logo__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"], {}), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_menus_MenuCategoriesDropdown__WEBPACK_IMPORTED_MODULE_7__[/* default */ "a"], {})]
+          children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_elements_common_Logo__WEBPACK_IMPORTED_MODULE_2__[/* default */ "a"], {}), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_menus_MenuCategoriesDropdown__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"], {})]
         }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
           className: "header__center",
-          children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_SearchHeader__WEBPACK_IMPORTED_MODULE_3__[/* default */ "a"], {})
+          children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_SearchHeader__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"], {})
+        }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
+          className: "header__right",
+          children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_HeaderActions__WEBPACK_IMPORTED_MODULE_6__[/* default */ "a"], {})
+        })]
+      })
+    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("nav", {
+      className: "navigation",
+      children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
+        className: "ps-container",
+        children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
+          className: "navigation__left",
+          children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_menus_MenuCategoriesDropdown__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"], {})
         }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("div", {
           className: "header__center",
           children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("a", {
             className: "address_holder",
             onClick: togglePopup,
-            children: [delivery, ",", /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("br", {}), fulladdress]
-          }), isOpen && /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_Hyperlocation__WEBPACK_IMPORTED_MODULE_8__[/* default */ "a"], {
+            children: [delivery, ", ", fulladdress]
+          }), isOpen && /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_Hyperlocation__WEBPACK_IMPORTED_MODULE_9__[/* default */ "a"], {
             content: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["Fragment"], {
               children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("b", {
                 children: "Design your Popup"
@@ -2549,11 +2576,25 @@ const HeaderDefault = () => {
             handleClose: togglePopup
           })]
         }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("div", {
-          className: "header__right",
-          children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_headers_modules_HeaderActions__WEBPACK_IMPORTED_MODULE_5__[/* default */ "a"], {})
+          className: "navigation__right",
+          children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsxs"])("ul", {
+            className: "navigation__extra",
+            children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
+              children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_3___default.a, {
+                href: "/account/order-tracking",
+                children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
+                  children: "Track your order"
+                })
+              })
+            }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
+              children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_headers_modules_CurrencyDropdown__WEBPACK_IMPORTED_MODULE_13__[/* default */ "a"], {})
+            }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
+              children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_headers_modules_LanguageSwicher__WEBPACK_IMPORTED_MODULE_14__[/* default */ "a"], {})
+            })]
+          })
         })]
       })
-    }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(_components_shared_navigation_NavigationDefault__WEBPACK_IMPORTED_MODULE_4__[/* default */ "a"], {})]
+    })]
   });
 };
 
@@ -3262,16 +3303,9 @@ class NavigationDefault extends react__WEBPACK_IMPORTED_MODULE_1__["Component"] 
             className: "navigation__extra",
             children: [/*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
               children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
-                href: "/vendor/become-a-vendor",
-                children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
-                  children: "Sell on Omnikeyz"
-                })
-              })
-            }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
-              children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])(next_link__WEBPACK_IMPORTED_MODULE_2___default.a, {
                 href: "/account/order-tracking",
                 children: /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("a", {
-                  children: "Tract your order"
+                  children: "Trak your order"
                 })
               })
             }), /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__["jsx"])("li", {
@@ -6146,6 +6180,7 @@ var external_antd_ = __webpack_require__("Exp3");
 
 
 
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
@@ -6235,6 +6270,7 @@ class Map_Map extends external_react_default.a.Component {
         area: area ? area : '',
         city: city ? city : '',
         state: state ? state : '',
+        visibility: true,
         pinCode: pinCode ? pinCode : '',
         markerPosition: {
           lat: latValue,
@@ -6303,7 +6339,8 @@ class Map_Map extends external_react_default.a.Component {
       markerPosition: {
         lat: this.props.center.lat,
         lng: this.props.center.lng
-      }
+      },
+      visibility: false
     };
   }
   /**
@@ -6355,54 +6392,46 @@ class Map_Map extends external_react_default.a.Component {
 
 
   render() {
-    const AsyncMap = Object(external_react_google_maps_["withScriptjs"])(Object(external_react_google_maps_["withGoogleMap"])(props => /*#__PURE__*/Object(jsx_runtime_["jsxs"])(external_react_google_maps_["GoogleMap"], {
-      google: this.props.google,
-      defaultZoom: this.props.zoom,
-      defaultCenter: {
-        lat: this.state.mapPosition.lat,
-        lng: this.state.mapPosition.lng
-      },
-      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_autocomplete_default.a, {
-        style: {
-          width: '100%',
-          height: '40px',
-          paddingLeft: '16px',
-          marginTop: '2px',
-          marginBottom: '100px'
-        },
-        onPlaceSelected: this.onPlaceSelected,
-        types: ['(regions)']
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["Marker"], {
-        google: this.props.google,
-        name: 'Dolores park',
-        draggable: true,
-        onDragEnd: this.onMarkerDragEnd,
-        position: {
-          lat: this.state.markerPosition.lat,
-          lng: this.state.markerPosition.lng
-        }
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["Marker"], {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["InfoWindow"], {
-        onClose: this.onInfoWindowClose,
-        position: {
-          lat: this.state.markerPosition.lat + 0.0018,
-          lng: this.state.markerPosition.lng
-        },
-        children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-          children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
-            style: {
-              padding: 0,
-              margin: 0
-            },
-            children: this.state.address
+    const AsyncMap = Object(external_react_google_maps_["withScriptjs"])(Object(external_react_google_maps_["withGoogleMap"])(props => /*#__PURE__*/Object(jsx_runtime_["jsxs"])(jsx_runtime_["Fragment"], {
+      children: [this.state.visibility === true ? /*#__PURE__*/Object(jsx_runtime_["jsxs"])(external_react_google_maps_["GoogleMap"], {
+        google: this.state.visibility === true ? this.props.google : {},
+        defaultZoom: this.state.visibility === true ? this.props.zoom : 0,
+        defaultCenter: this.state.visibility === true ? {
+          lat: this.state.mapPosition.lat,
+          lng: this.state.mapPosition.lng
+        } : {},
+        children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["Marker"], {
+          google: this.props.google,
+          name: 'Dolores park',
+          draggable: true,
+          onDragEnd: this.onMarkerDragEnd,
+          position: {
+            lat: this.state.markerPosition.lat,
+            lng: this.state.markerPosition.lng
+          }
+        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["Marker"], {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_maps_["InfoWindow"], {
+          onClose: this.onInfoWindowClose,
+          position: {
+            lat: this.state.markerPosition.lat + 0.0018,
+            lng: this.state.markerPosition.lng
+          },
+          children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+            children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
+              style: {
+                padding: 0,
+                margin: 0
+              },
+              children: this.state.address
+            })
           })
-        })
-      })]
+        })]
+      }) : /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), " "]
     })));
     let map;
 
     if (this.props.center.lat !== undefined) {
-      map = /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-        children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("form", {
+      map = /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+        children: [this.state.visibility == true ? /*#__PURE__*/Object(jsx_runtime_["jsxs"])("form", {
           onSubmit: this.handleSubmit,
           children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
             children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
@@ -6505,7 +6534,7 @@ class Map_Map extends external_react_default.a.Component {
             }),
             containerElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
               style: {
-                height: this.props.height
+                height: '300px'
               }
             }),
             mapElement: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
@@ -6519,7 +6548,17 @@ class Map_Map extends external_react_default.a.Component {
               value: "Add Location"
             })
           })]
-        })
+        }) : '', /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_google_autocomplete_default.a, {
+          style: {
+            width: '100%',
+            height: '40px',
+            paddingLeft: '16px',
+            marginTop: '2px',
+            marginBottom: '100px'
+          },
+          onPlaceSelected: this.onPlaceSelected,
+          types: ['(regions)']
+        })]
       });
     } else {
       map = /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
@@ -6553,7 +6592,8 @@ class Googlemap_Googlemap extends external_react_["Component"] {
           lng: 73.8567
         },
         height: "300px",
-        zoom: 15
+        zoom: 15,
+        visibility: false
       })
     });
   }

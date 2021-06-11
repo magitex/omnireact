@@ -11,6 +11,7 @@ class Googlemap extends Component {
 					center={{lat: 18.5204, lng: 73.8567}}
 					height='300px'
 					zoom={15}
+					visibility={false}
 				/>
 			</div>
 		)

@@ -32,14 +32,10 @@ class NavigationDefault extends Component {
                     <div className="navigation__right">
                      
                         <ul className="navigation__extra">
-                            <li>
-                                <Link href="/vendor/become-a-vendor">
-                                    <a>Sell on Omnikeyz</a>
-                                </Link>
-                            </li>
+                           
                             <li>
                                 <Link href="/account/order-tracking">
-                                    <a>Tract your order</a>
+                                    <a>Trak your order</a>
                                 </Link>
                             </li>
                             <li>

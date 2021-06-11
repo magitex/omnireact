@@ -200,23 +200,7 @@
         .container {
             display: flex;
             flex-flow: row nowrap;
-            .header__center{
-                .address_holder{
-                    width: 90%;
-                    text-align: left;
-                    border: 0;
-                    margin-left: 8px;
-                    border-radius: 3px;
-                    background: #ffff;
-                    padding: 5px;
-                    display: block;
-                    overflow: hidden;
-    height: 41px;
-    line-height: 17px;
-                }
-            }
-
-            > * {
+             > * {
                 width: 100%;
             }
         }

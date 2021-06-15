@@ -5366,6 +5366,8 @@ module.exports = {
   dashboardData: '/rs/v1/master/getDashboardDetails',
   productDetails: '/rs/v1/master/getProductDetailsByProductId',
   saveUserAddress: '/rs/v1/master/saveUserAddress',
+  generateOTP: '/rs/v1/master/generateOTP',
+  validateOTP: '/rs/v1/master/validateOTP',
   auth: '/oauth/token'
 };
 
@@ -7246,6 +7248,69 @@ const Network = {
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default()({
         url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.saveUserAddress,
+        method: 'post',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token') + '',
+          'Content-Type': 'application/json'
+        }
+      }).then(data => {
+        resolve(data);
+      }).catch(err => reject(err));
+    });
+  },
+  generateOTP: async postvar => {
+    return new Promise() < string > ((resolve, reject) => {
+      if (window.localStorage.getItem('longitude') == null) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          localStorage.setItem('latitude', position.coords.latitude);
+          localStorage.setItem('longitude', position.coords.longitude);
+          console.log("Latitude is :", localStorage.getItem('latitude'));
+          console.log("Longitude is :", localStorage.getItem('longitude'));
+        });
+      }
+
+      console.log("post:", postvar);
+      var data = {
+        customerID: 1,
+        hashKEY: "KJYT1324",
+        phoneNo: postvar.phonenumber
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.generateOTP,
+        method: 'post',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token') + '',
+          'Content-Type': 'application/json'
+        }
+      }).then(data => {
+        resolve(data);
+      }).catch(err => reject(err));
+    });
+  },
+  validateOTP: async postvar => {
+    return new Promise((resolve, reject) => {
+      if (window.localStorage.getItem('longitude') == null) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          localStorage.setItem('latitude', position.coords.latitude);
+          localStorage.setItem('longitude', position.coords.longitude);
+          console.log("Latitude is :", localStorage.getItem('latitude'));
+          console.log("Longitude is :", localStorage.getItem('longitude'));
+        });
+      }
+
+      console.log("post:", postvar);
+      var data = {
+        customerID: 1,
+        deviceID: "HJGGT5678",
+        mobileNo: postvar.phonenumber,
+        otp: postvar.otp,
+        pushID: "8766GHFFDD",
+        userFullName: postvar.username
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.validateOTP,
         method: 'post',
         data: data,
         headers: {

@@ -920,6 +920,12 @@ var external_antd_ = __webpack_require__("Exp3");
 // EXTERNAL MODULE: external "react-redux"
 var external_react_redux_ = __webpack_require__("h74D");
 
+// EXTERNAL MODULE: ./components/helpers/networks.js
+var networks = __webpack_require__("yTuJ");
+
+// EXTERNAL MODULE: ./components/helpers/context.js
+var context = __webpack_require__("EMJx");
+
 // CONCATENATED MODULE: ./components/partials/account/Login.jsx
 
 
@@ -933,17 +939,75 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
+
 class Login_Login extends external_react_["Component"] {
   constructor(props) {
     super(props);
 
-    _defineProperty(this, "handleLoginSubmit", e => {
-      console.log('test');
-      this.props.dispatch(Object(action["d" /* login */])());
-      router_default.a.push('/');
+    _defineProperty(this, "handleChange", event => {
+      this.setState({
+        [event.target.name]: event.target.value
+      });
     });
 
-    this.state = {};
+    _defineProperty(this, "modalSuccess", type => {
+      external_antd_["notification"][type]({
+        message: 'Success',
+        description: 'OTP generated successfully!',
+        duration: 10
+      });
+    });
+
+    _defineProperty(this, "modalWarning", type => {
+      external_antd_["notification"][type]({
+        message: 'Good bye!',
+        description: 'OTP is not valid'
+      });
+    });
+
+    _defineProperty(this, "handleLoginSubmit", async e => {
+      console.log('test');
+      let data;
+      const token = await networks["a" /* default */].getToken();
+      data = await networks["a" /* default */].generateOTP(this.state);
+      const responseData = data;
+      console.log('responseData', responseData);
+      this.setState({
+        otp: responseData.data,
+        visible: true
+      });
+      console.log('otp', responseData.data.data);
+      this.modalSuccess('success'); //this.props.dispatch(login());
+      //Router.push('/');
+    });
+
+    _defineProperty(this, "handleotpSubmit", e => {
+      if (this.state.otp != this.state.otpsend) {
+        modalWarning('warning');
+      } else {
+        let data;
+        const token = networks["a" /* default */].getToken();
+        data = networks["a" /* default */].validateOTP(this.state);
+        console.log('data', data);
+        sessionStorage.setItem('fullName', data.data.fullName);
+        sessionStorage.setItem('userID', data.data.userID);
+        sessionStorage.setItem('mobileNo', data.data.mobileNo);
+        sessionStorage.setItem('email', data.data.email);
+        sessionStorage.setItem('profilePic', data.data.profilePic);
+        this.modalSuccess('success');
+        this.props.dispatch(Object(action["d" /* login */])());
+        router_default.a.push('/');
+      }
+    });
+
+    this.state = {
+      username: '',
+      phonenumber: '',
+      otp: '',
+      otpsend: '',
+      visible: false
+    };
   }
 
   static getDerivedStateFromProps(props) {
@@ -968,7 +1032,7 @@ class Login_Login extends external_react_["Component"] {
       className: "ps-my-account",
       children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
         className: "container",
-        children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])(external_antd_["Form"], {
+        children: this.state.visible == false ? /*#__PURE__*/Object(jsx_runtime_["jsxs"])(external_antd_["Form"], {
           className: "ps-form--account",
           onFinish: this.handleLoginSubmit.bind(this),
           children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("ul", {
@@ -1002,41 +1066,31 @@ class Login_Login extends external_react_["Component"] {
                   name: "username",
                   rules: [{
                     required: true,
-                    message: 'Please input your email!'
+                    message: 'Please input your username!'
                   }],
                   children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_antd_["Input"], {
                     className: "form-control",
                     type: "text",
-                    placeholder: "Username or email address"
+                    name: "username",
+                    placeholder: "username",
+                    onChange: this.handleChange
                   })
                 })
               }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
                 className: "form-group form-forgot",
                 children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_antd_["Form"].Item, {
-                  name: "password",
+                  name: "phonenumber",
                   rules: [{
                     required: true,
-                    message: 'Please input your password!'
+                    message: 'Please input your phonenumber!'
                   }],
                   children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_antd_["Input"], {
                     className: "form-control",
-                    type: "password",
-                    placeholder: "Password..."
+                    type: "number",
+                    name: "phonenumber",
+                    placeholder: "Phone number...",
+                    onChange: this.handleChange
                   })
-                })
-              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-                className: "form-group",
-                children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-                  className: "ps-checkbox",
-                  children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-                    className: "form-control",
-                    type: "checkbox",
-                    id: "remember-me",
-                    name: "remember-me"
-                  }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("label", {
-                    htmlFor: "remember-me",
-                    children: "Rememeber me"
-                  })]
                 })
               }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
                 className: "form-group submit",
@@ -1091,6 +1145,60 @@ class Login_Login extends external_react_["Component"] {
                 })]
               })]
             })]
+          })]
+        }) : /*#__PURE__*/Object(jsx_runtime_["jsxs"])(external_antd_["Form"], {
+          className: "ps-form--account",
+          onFinish: this.handleotpSubmit.bind(this),
+          children: [/*#__PURE__*/Object(jsx_runtime_["jsxs"])("ul", {
+            className: "ps-tab-list",
+            children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
+              className: "active",
+              children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
+                href: "/account/login",
+                children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+                  children: "Login"
+                })
+              })
+            }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("li", {
+              children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(link_default.a, {
+                href: "/account/register",
+                children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+                  children: "Register"
+                })
+              })
+            })]
+          }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+            className: "ps-tab active",
+            id: "sign-in",
+            children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+              className: "ps-form__content",
+              children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("h5", {
+                children: "Validate OTP"
+              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+                className: "form-group",
+                children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_antd_["Form"].Item, {
+                  name: "otpsend",
+                  rules: [{
+                    required: true,
+                    message: 'Please input your otp!'
+                  }],
+                  children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_antd_["Input"], {
+                    className: "form-control",
+                    type: "number",
+                    name: "otpsend",
+                    placeholder: "OTP",
+                    onChange: this.handleChange
+                  })
+                })
+              }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+                className: "form-group submit",
+                children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("button", {
+                  type: "submit",
+                  className: "ps-btn ps-btn--fullwidth",
+                  children: "Validate"
+                })
+              })]
+            })
           })]
         })
       })
@@ -5397,6 +5505,8 @@ module.exports = {
   dashboardData: '/rs/v1/master/getDashboardDetails',
   productDetails: '/rs/v1/master/getProductDetailsByProductId',
   saveUserAddress: '/rs/v1/master/saveUserAddress',
+  generateOTP: '/rs/v1/master/generateOTP',
+  validateOTP: '/rs/v1/master/validateOTP',
   auth: '/oauth/token'
 };
 
@@ -7277,6 +7387,69 @@ const Network = {
       };
       axios__WEBPACK_IMPORTED_MODULE_1___default()({
         url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.saveUserAddress,
+        method: 'post',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token') + '',
+          'Content-Type': 'application/json'
+        }
+      }).then(data => {
+        resolve(data);
+      }).catch(err => reject(err));
+    });
+  },
+  generateOTP: async postvar => {
+    return new Promise() < string > ((resolve, reject) => {
+      if (window.localStorage.getItem('longitude') == null) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          localStorage.setItem('latitude', position.coords.latitude);
+          localStorage.setItem('longitude', position.coords.longitude);
+          console.log("Latitude is :", localStorage.getItem('latitude'));
+          console.log("Longitude is :", localStorage.getItem('longitude'));
+        });
+      }
+
+      console.log("post:", postvar);
+      var data = {
+        customerID: 1,
+        hashKEY: "KJYT1324",
+        phoneNo: postvar.phonenumber
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.generateOTP,
+        method: 'post',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer ' + localStorage.getItem('token') + '',
+          'Content-Type': 'application/json'
+        }
+      }).then(data => {
+        resolve(data);
+      }).catch(err => reject(err));
+    });
+  },
+  validateOTP: async postvar => {
+    return new Promise((resolve, reject) => {
+      if (window.localStorage.getItem('longitude') == null) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+          localStorage.setItem('latitude', position.coords.latitude);
+          localStorage.setItem('longitude', position.coords.longitude);
+          console.log("Latitude is :", localStorage.getItem('latitude'));
+          console.log("Longitude is :", localStorage.getItem('longitude'));
+        });
+      }
+
+      console.log("post:", postvar);
+      var data = {
+        customerID: 1,
+        deviceID: "HJGGT5678",
+        mobileNo: postvar.phonenumber,
+        otp: postvar.otp,
+        pushID: "8766GHFFDD",
+        userFullName: postvar.username
+      };
+      axios__WEBPACK_IMPORTED_MODULE_1___default()({
+        url: serverUrl + _config__WEBPACK_IMPORTED_MODULE_0___default.a.validateOTP,
         method: 'post',
         data: data,
         headers: {

@@ -5,11 +5,18 @@ import { login } from '../../../store/auth/action';
 
 import { Form, Input, notification } from 'antd';
 import { connect } from 'react-redux';
-
+import Helper from '~/components/helpers/networks';
+import {HomeContext} from '~/components/helpers/context';
 class Login extends Component {
     constructor(props) {
         super(props);
-        this.state = {};
+        this.state = {
+            username: '',
+            phonenumber: '',
+            otp: '',
+            otpsend: '',
+            visible:false
+        };
     }
 
     static getDerivedStateFromProps(props) {
@@ -18,7 +25,9 @@ class Login extends Component {
         }
         return false;
     }
-
+    handleChange = ( event ) => {
+        this.setState({ [event.target.name]: event.target.value });
+       };
     handleFeatureWillUpdate(e) {
         e.preventDefault();
         notification.open({
@@ -27,18 +36,68 @@ class Login extends Component {
             duration: 500,
         });
     }
-
-    handleLoginSubmit = e => {
+    modalSuccess = (type) => {
+        notification[type]({
+            message: 'Success',
+            description: 'OTP generated successfully!',
+            duration: 10,
+        });
+    };
+     modalWarning = type => {
+        notification[type]({
+            message: 'Good bye!',
+            description: 'OTP is not valid',
+        });
+    };
+      handleLoginSubmit = e => {
+        
         console.log('test');
-        this.props.dispatch(login());
-        Router.push('/');
+        let data;
+        const token=Helper.getToken();
+        data=Helper.generateOTP(this.state);
+        const responseData = data;
+        console.log( 'responseData', responseData);
+        this.setState({
+            otp:responseData.data,
+            visible:true
+        })
+        console.log( 'otp', responseData.data.data);
+        this.modalSuccess('success');
+        //this.props.dispatch(login());
+        //Router.push('/');
+
+    };
+    handleotpSubmit = e => {
+        if( this.state.otp != this.state.otpsend)
+        {
+            modalWarning('warning');
+
+        }
+        else
+        {
+            let data;
+            const token=Helper.getToken();
+            data=Helper.validateOTP(this.state);
+            console.log( 'data', data);
+            sessionStorage.setItem('fullName', data.data.fullName);
+            sessionStorage.setItem('userID', data.data.userID);
+            sessionStorage.setItem('mobileNo', data.data.mobileNo);
+            sessionStorage.setItem('email', data.data.email);
+            sessionStorage.setItem('profilePic', data.data.profilePic);
+            this.modalSuccess('success');
+            this.props.dispatch(login());
+            Router.push('/');
+        }
+       
 
     };
 
     render() {
         return (
             <div className="ps-my-account">
+               
                 <div className="container">
+                {   this.state.visible == false ?
                     <Form
                         className="ps-form--account"
                         onFinish={this.handleLoginSubmit.bind(this)}>
@@ -58,52 +117,45 @@ class Login extends Component {
                             <div className="ps-form__content">
                                 <h5>Log In Your Account</h5>
                                 <div className="form-group">
-                                    <Form.Item
-                                        name="username"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message:
-                                                    'Please input your email!',
-                                            },
-                                        ]}>
-                                        <Input
-                                            className="form-control"
-                                            type="text"
-                                            placeholder="Username or email address"
-                                        />
-                                    </Form.Item>
-                                </div>
+                                 <Form.Item
+                                     name="username"
+                                     rules={[
+                                         {
+                                             required: true,
+                                             message:
+                                                 'Please input your username!',
+                                         },
+                                     ]}
+                                    >
+                                     <Input
+                                         className="form-control"
+                                         type="text"
+                                         name="username"
+                                         placeholder="username"
+                                         onChange={this.handleChange}
+                                     />
+                                 </Form.Item>
+                             </div>
                                 <div className="form-group form-forgot">
                                     <Form.Item
-                                        name="password"
+                                        name="phonenumber"
                                         rules={[
                                             {
                                                 required: true,
                                                 message:
-                                                    'Please input your password!',
+                                                    'Please input your phonenumber!',
                                             },
                                         ]}>
                                         <Input
                                             className="form-control"
-                                            type="password"
-                                            placeholder="Password..."
+                                            type="number"
+                                            name="phonenumber"
+                                            placeholder="Phone number..."
+                                            onChange={this.handleChange}
                                         />
                                     </Form.Item>
                                 </div>
-                                <div className="form-group">
-                                    <div className="ps-checkbox">
-                                        <input
-                                            className="form-control"
-                                            type="checkbox"
-                                            id="remember-me"
-                                            name="remember-me"
-                                        />
-                                        <label htmlFor="remember-me">
-                                            Rememeber me
-                                        </label>
-                                    </div>
-                                </div>
+                                
                                 <div className="form-group submit">
                                     <button
                                         type="submit"
@@ -158,7 +210,59 @@ class Login extends Component {
                                 </ul>
                             </div>
                         </div>
-                    </Form>
+                    </Form>:
+                     <Form
+                     className="ps-form--account"
+                     onFinish={this.handleotpSubmit.bind(this)}>
+                     <ul className="ps-tab-list">
+                         <li className="active">
+                             <Link href="/account/login">
+                                 <a>Login</a>
+                             </Link>
+                         </li>
+                         <li>
+                             <Link href="/account/register">
+                                 <a>Register</a>
+                             </Link>
+                         </li>
+                     </ul>
+                     <div className="ps-tab active" id="sign-in">
+                         <div className="ps-form__content">
+                             <h5>Validate OTP</h5>
+                             <div className="form-group">
+                                 <Form.Item
+                                     name="otpsend"
+                                     rules={[
+                                         {
+                                             required: true,
+                                             message:
+                                                 'Please input your otp!',
+                                         },
+                                     ]}
+                                    >
+                                     <Input
+                                         className="form-control"
+                                         type="number"
+                                         name="otpsend"
+                                         placeholder="OTP"
+                                         onChange={this.handleChange}
+                                     />
+                                 </Form.Item>
+                             </div>
+                                                       
+                             <div className="form-group submit">
+                                 <button
+                                     type="submit"
+                                     className="ps-btn ps-btn--fullwidth">
+                                     Validate
+                                 </button>
+                             </div>
+                         </div>
+                        
+                     </div>
+                 </Form> 
+                    
+                    }
                 </div>
             </div>
         );

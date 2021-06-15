@@ -24,7 +24,7 @@ class Map extends React.Component{constructor( props ){
     lat: this.props.center.lat,
     lng: this.props.center.lng
   },
-  visibility: false
+  visibility: this.props.visibility
   }
  }/**
   * Get the current address from the default map position and set those values in the state
@@ -69,16 +69,55 @@ class Map extends React.Component{constructor( props ){
    this.state.state !== nextState.state ||
    this.state.pinCode !== nextState.pinCode
   ) {
-   return true
-  } else if ( this.props.center.lat === nextProps.center.lat ){
-   return false
-  }
+    return true
+   } else if ( this.props.center.lat === nextProps.center.lat ){
+    return false
+   }
+   else
+     return true;
  }/**
   * Get the city and set the city input value to the one selected
   *
   * @param addressArray
   * @return {string}
   */
+ getCurrentLocation = (lati,lngi) => {
+
+  this.setState({
+    visibility: true,
+    markerPosition: {
+    lat: lati,
+    lng: lngi
+    },
+    mapPosition: {
+      lat: lati,
+      lng: lngi
+    },
+  });
+  Geocode.fromLatLng( this.state.mapPosition.lat , this.state.mapPosition.lng ).then(
+    response => {
+     const address = response.results[0].formatted_address,
+      addressArray =  response.results[0].address_components,
+      city = this.getCity( addressArray ),
+      area = this.getArea( addressArray ),
+      state = this.getState( addressArray ),
+      pinCode = this.getpinCode( addressArray );
+      
+     console.log( 'city', city, area, state, pinCode );
+   
+     this.setState( {
+      address: ( address ) ? address : '',
+      area: ( area ) ? area : '',
+      city: ( city ) ? city : '',
+      state: ( state ) ? state : '',
+      pinCode: ( pinCode ) ? pinCode : '',
+     } )
+    },
+    error => {
+     console.error(error);
+    }
+   );
+ };
  getCity = ( addressArray ) => {
   let city = '';
   for( let i = 0; i < addressArray.length; i++ ) {

@@ -152,7 +152,7 @@ const Network = {
         });
     },
     generateOTP: async (postvar) => {
-        return new Promise<string>((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             if (window.localStorage.getItem('longitude')== null)
            {
             navigator.geolocation.getCurrentPosition(function(position) {

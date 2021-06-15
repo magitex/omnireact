@@ -90,9 +90,7 @@ const Hyperlocation = props => {
     />
     <SearchLocationInput />    
     <div ></div>
-    <p> <a
-                  href="#" onClick={() => setcurrent()}>Use Current Location</a>
-                  </p>
+    
    {mainCarouselView}
       </div>
       

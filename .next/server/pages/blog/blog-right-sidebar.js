@@ -6728,6 +6728,38 @@ class Map_Map extends external_react_default.a.Component {
   constructor(props) {
     super(props);
 
+    _defineProperty(this, "getCurrentLocation", (lati, lngi) => {
+      this.setState({
+        visibility: true,
+        markerPosition: {
+          lat: lati,
+          lng: lngi
+        },
+        mapPosition: {
+          lat: lati,
+          lng: lngi
+        }
+      });
+      external_react_geocode_default.a.fromLatLng(this.state.mapPosition.lat, this.state.mapPosition.lng).then(response => {
+        const address = response.results[0].formatted_address,
+              addressArray = response.results[0].address_components,
+              city = this.getCity(addressArray),
+              area = this.getArea(addressArray),
+              state = this.getState(addressArray),
+              pinCode = this.getpinCode(addressArray);
+        console.log('city', city, area, state, pinCode);
+        this.setState({
+          address: address ? address : '',
+          area: area ? area : '',
+          city: city ? city : '',
+          state: state ? state : '',
+          pinCode: pinCode ? pinCode : ''
+        });
+      }, error => {
+        console.error(error);
+      });
+    });
+
     _defineProperty(this, "getCity", addressArray => {
       let city = '';
 
@@ -6872,7 +6904,7 @@ class Map_Map extends external_react_default.a.Component {
         lat: this.props.center.lat,
         lng: this.props.center.lng
       },
-      visibility: false
+      visibility: this.props.visibility
     };
   }
   /**
@@ -6913,7 +6945,7 @@ class Map_Map extends external_react_default.a.Component {
       return true;
     } else if (this.props.center.lat === nextProps.center.lat) {
       return false;
-    }
+    } else return true;
   }
   /**
   * Get the city and set the city input value to the one selected
@@ -7110,23 +7142,64 @@ class Map_Map extends external_react_default.a.Component {
 
 
 
+function Googlemap_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
 
 class Googlemap_Googlemap extends external_react_["Component"] {
+  constructor(props) {
+    super(props);
+
+    Googlemap_defineProperty(this, "setcurrent", evt => {
+      evt.preventDefault();
+      navigator.geolocation.getCurrentPosition(position => {
+        localStorage.setItem('latitude', position.coords.latitude);
+        localStorage.setItem('longitude', position.coords.longitude);
+        console.log("current Latitude is :", localStorage.getItem('latitude'));
+        console.log("current Longitude is :", localStorage.getItem('longitude'));
+        this.child.current.getCurrentLocation(position.coords.latitude, position.coords.longitude);
+        this.setState({
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+          visibility: true,
+          height: '130px'
+        });
+        console.log(this.state);
+      });
+    });
+
+    this.state = {
+      lat: 0.0,
+      lng: 0.0,
+      visibility: false,
+      height: '0px'
+    };
+    this.child = /*#__PURE__*/external_react_default.a.createRef();
+    this.setcurrent = this.setcurrent.bind(this);
+  }
+
   render() {
-    return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+    return /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
       style: {
         margin: '100px'
       },
-      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_Map, {
+      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_Map, {
+        ref: this.child,
         google: this.props.google,
         center: {
-          lat: 18.5204,
-          lng: 73.8567
+          lat: this.state.lat,
+          lng: this.state.lng
         },
-        height: "300px",
+        height: this.state.height,
         zoom: 15,
-        visibility: false
-      })
+        visibility: this.state.visibility
+      }), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("p", {
+        children: [" ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("button", {
+          onClick: e => this.setcurrent(e),
+          children: "Use Current Location"
+        })]
+      })]
     });
   }
 
@@ -7261,13 +7334,7 @@ const Hyperlocation = props => {
         type: "button",
         value: "Home Delivery",
         onClick: () => setdelivery(2)
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("p", {
-        children: [" ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
-          href: "#",
-          onClick: () => setcurrent(),
-          children: "Use Current Location"
-        })]
-      }), mainCarouselView]
+      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), mainCarouselView]
     })
   });
 };
@@ -8047,7 +8114,7 @@ const Network = {
     });
   },
   generateOTP: async postvar => {
-    return new Promise() < string > ((resolve, reject) => {
+    return new Promise((resolve, reject) => {
       if (window.localStorage.getItem('longitude') == null) {
         navigator.geolocation.getCurrentPosition(function (position) {
           localStorage.setItem('latitude', position.coords.latitude);

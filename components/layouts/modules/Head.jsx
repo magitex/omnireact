@@ -39,6 +39,8 @@ const StyleSheets = () => (
             type="text/css"
             href="/static/css/slick.min.css"
         />
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y&amp;libraries=places"></script>
+   
     </Head>
 );
 

@@ -49,16 +49,16 @@ class Login extends Component {
             description: 'OTP is not valid',
         });
     };
-      handleLoginSubmit = e => {
+     async handleLoginSubmit(e){
         
         console.log('test');
         let data;
-        const token=Helper.getToken();
-        data=Helper.generateOTP(this.state);
+        const token=await Helper.getToken();
+        data=await Helper.generateOTP(this.state);
         const responseData = data;
         console.log( 'responseData', responseData);
         this.setState({
-            otp:responseData.data,
+            otp:responseData.data.data,
             visible:true
         })
         console.log( 'otp', responseData.data.data);
@@ -67,17 +67,17 @@ class Login extends Component {
         //Router.push('/');
 
     };
-    handleotpSubmit = e => {
+    async handleotpSubmit(e){
         if( this.state.otp != this.state.otpsend)
         {
-            modalWarning('warning');
+            this.modalWarning('warning');
 
         }
         else
         {
             let data;
-            const token=Helper.getToken();
-            data=Helper.validateOTP(this.state);
+            const token=await Helper.getToken();
+            data=await Helper.validateOTP(this.state);
             console.log( 'data', data);
             sessionStorage.setItem('fullName', data.data.fullName);
             sessionStorage.setItem('userID', data.data.userID);

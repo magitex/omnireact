@@ -3238,6 +3238,8 @@ const StyleSheets = () => /*#__PURE__*/Object(jsx_runtime_["jsxs"])(head_default
     rel: "stylesheet",
     type: "text/css",
     href: "/static/css/slick.min.css"
+  }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("script", {
+    src: "https://maps.googleapis.com/maps/api/js?key=AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y&libraries=places"
   })]
 });
 

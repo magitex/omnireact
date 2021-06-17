@@ -7,6 +7,11 @@ const AccountQuickLinks = (props) => {
     const dispatch = useDispatch();
     const handleLogout = (e) => {
         e.preventDefault();
+       localStorage.removeItem('userID');
+        localStorage.removeItem('fullName');
+        localStorage.removeItem('mobileNo');
+       localStorage.removeItem('email');
+      localStorage.removeItem('profilePic');
         dispatch(logOut());
     };
     const accountLinks = [

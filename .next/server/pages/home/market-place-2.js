@@ -3195,6 +3195,11 @@ const AccountQuickLinks = props => {
 
   const handleLogout = e => {
     e.preventDefault();
+    localStorage.removeItem('userID');
+    localStorage.removeItem('fullName');
+    localStorage.removeItem('mobileNo');
+    localStorage.removeItem('email');
+    localStorage.removeItem('profilePic');
     dispatch(Object(_store_auth_action__WEBPACK_IMPORTED_MODULE_4__[/* logOut */ "b"])());
   };
 

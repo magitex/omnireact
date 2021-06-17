@@ -1,4 +1,7 @@
 import React , {useState} from 'react'
+import Link from 'next/link';
+import Router from 'next/router';
+
 import PlacesAutocomplete, {
     geocodeByAddress,
     getLatLng,
@@ -15,14 +18,22 @@ function LocationSearchInputFun() {
         setAddress(address);
     };
     const handleChangeLatLng = (latLngObj) => {
-        setLatLng(yarn );
+        setLatLng(latLngObj );
     };
     
     const handleSelect = (address) => {
         geocodeByAddress(address)
           .then(results => getLatLng(results[0]))
-          .then(latLng => { setAddress(address); setLatLng(latLng);console.log('Success', latLng)})
+          .then(latLng => { setAddress(address); setLatLng(latLng);
+            localStorage.setItem('latitude', latLng.lat);
+          localStorage.setItem('longitude', latLng.lng);
+            console.log('Success', latLng);
+            //Router.push('/');
+            window.location.href='/';
+          })
           .catch(error => {setLatLng({});console.error('Error', error)});
+         
+          
       };
       return (
         <PlacesAutocomplete
@@ -66,6 +77,7 @@ function LocationSearchInputFun() {
             </div>
           )}
         </PlacesAutocomplete>
+   
       );
 }
 

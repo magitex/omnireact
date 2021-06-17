@@ -1659,6 +1659,13 @@ const FooterCopyright = () => /*#__PURE__*/Object(react_jsx_runtime__WEBPACK_IMP
 
 /***/ }),
 
+/***/ "KOAY":
+/***/ (function(module, exports) {
+
+module.exports = require("react-places-autocomplete");
+
+/***/ }),
+
 /***/ "MJbt":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1684,6 +1691,11 @@ const AccountQuickLinks = props => {
 
   const handleLogout = e => {
     e.preventDefault();
+    localStorage.removeItem('userID');
+    localStorage.removeItem('fullName');
+    localStorage.removeItem('mobileNo');
+    localStorage.removeItem('email');
+    localStorage.removeItem('profilePic');
     dispatch(Object(_store_auth_action__WEBPACK_IMPORTED_MODULE_4__[/* logOut */ "b"])());
   };
 
@@ -6956,7 +6968,116 @@ class Googlemap_Googlemap extends external_react_["Component"] {
 }
 
 /* harmony default export */ var modules_Googlemap = (Googlemap_Googlemap);
+// EXTERNAL MODULE: ./node_modules/next/link.js
+var next_link = __webpack_require__("YFqc");
+
+// EXTERNAL MODULE: external "next/router"
+var router_ = __webpack_require__("4Q3z");
+
+// EXTERNAL MODULE: external "react-places-autocomplete"
+var external_react_places_autocomplete_ = __webpack_require__("KOAY");
+var external_react_places_autocomplete_default = /*#__PURE__*/__webpack_require__.n(external_react_places_autocomplete_);
+
+// CONCATENATED MODULE: ./components/shared/headers/modules/LocationSearchInputFun.jsx
+
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { LocationSearchInputFun_defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function LocationSearchInputFun_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+
+const initial = {
+  lat: '',
+  lng: ''
+};
+
+function LocationSearchInputFun() {
+  const {
+    0: address,
+    1: setAddress
+  } = Object(external_react_["useState"])('');
+  const {
+    0: latLng,
+    1: setLatLng
+  } = Object(external_react_["useState"])(initial);
+
+  const handleChange = address => {
+    setAddress(address);
+  };
+
+  const handleChangeLatLng = latLngObj => {
+    setLatLng(latLngObj);
+  };
+
+  const handleSelect = address => {
+    Object(external_react_places_autocomplete_["geocodeByAddress"])(address).then(results => Object(external_react_places_autocomplete_["getLatLng"])(results[0])).then(latLng => {
+      setAddress(address);
+      setLatLng(latLng);
+      localStorage.setItem('latitude', latLng.lat);
+      localStorage.setItem('longitude', latLng.lng);
+      console.log('Success', latLng); //Router.push('/');
+
+      window.location.href = '/';
+    }).catch(error => {
+      setLatLng({});
+      console.error('Error', error);
+    });
+  };
+
+  return /*#__PURE__*/Object(jsx_runtime_["jsx"])(external_react_places_autocomplete_default.a, {
+    value: address,
+    onChange: handleChange,
+    onSelect: handleSelect,
+    children: ({
+      getInputProps,
+      suggestions,
+      getSuggestionItemProps,
+      loading
+    }) => /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("input", _objectSpread({}, getInputProps({
+        placeholder: 'Search Places ...',
+        className: 'location-search-input'
+      }))), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+        className: "autocomplete-dropdown-container",
+        children: [loading && /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+          children: "Loading..."
+        }), suggestions.map((suggestion, i) => {
+          const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item'; // inline style for demonstration purpose
+
+          const style = suggestion.active ? {
+            backgroundColor: '#fafafa',
+            cursor: 'pointer'
+          } : {
+            backgroundColor: '#ffffff',
+            cursor: 'pointer'
+          };
+          return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", _objectSpread(_objectSpread({}, getSuggestionItemProps(suggestion, {
+            className,
+            style
+          })), {}, {
+            children: /*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
+              children: suggestion.description
+            })
+          }), i);
+        })]
+      })]
+    })
+  });
+}
+
+/* harmony default export */ var modules_LocationSearchInputFun = (LocationSearchInputFun);
 // CONCATENATED MODULE: ./components/shared/headers/modules/SearchLocationInput.jsx
+
+
+
+function SearchLocationInput_defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -6965,15 +7086,45 @@ const API_KEY = 'AIzaSyDPgRKAUNl2uKfGyLSxfcXLKS2hT0v3h7Y'; // how to get key - s
 class SearchLocationInput_SearchLocationInput extends external_react_["Component"] {
   constructor(props) {
     super(props);
+
+    SearchLocationInput_defineProperty(this, "setcurrent", () => {
+      navigator.geolocation.getCurrentPosition(function (position) {
+        localStorage.setItem('latitude', position.coords.latitude);
+        localStorage.setItem('longitude', position.coords.longitude);
+        console.log("current Latitude is :", localStorage.getItem('latitude'));
+        console.log("current Longitude is :", localStorage.getItem('longitude'));
+      });
+      window.location.href = '/'; //Router.push('/');
+    });
+
     this.state = {
-      place: null
+      place: null,
+      userid: window.localStorage.getItem('userID')
     };
+    console.log('newuserID', localStorage.getItem('userID'));
   }
 
   render() {
-    return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-      children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_Googlemap, {})
-    });
+    let mapstruc;
+    console.log('newuserID11', this.state.userid);
+
+    if (this.state.userid !== null) {
+      mapstruc = /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+        children: /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_Googlemap, {})
+      });
+    } else {
+      mapstruc = /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+        children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_LocationSearchInputFun, {}), /*#__PURE__*/Object(jsx_runtime_["jsxs"])("p", {
+          children: [" ", /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+            href: "#",
+            onClick: () => this.setcurrent(),
+            children: "Use Current Location"
+          })]
+        })]
+      });
+    }
+
+    return mapstruc;
   }
 
 }
@@ -6999,6 +7150,10 @@ const Hyperlocation = props => {
   const {
     0: storename,
     1: setstorename
+  } = Object(external_react_["useState"])([]);
+  const {
+    0: userid,
+    1: setuserid
   } = Object(external_react_["useState"])([]);
 
   async function getaddress() {
@@ -7036,36 +7191,31 @@ const Hyperlocation = props => {
     window.location.href = '/';
   };
 
-  const setcurrent = () => {
-    navigator.geolocation.getCurrentPosition(function (position) {
-      localStorage.setItem('latitude', position.coords.latitude);
-      localStorage.setItem('longitude', position.coords.longitude);
-      console.log("current Latitude is :", localStorage.getItem('latitude'));
-      console.log("current Longitude is :", localStorage.getItem('longitude'));
-    });
-    window.location.href = '/';
-  };
-
   Object(external_react_["useEffect"])(() => {
     getaddress();
+    setuserid(window.localStorage.getItem('userID'));
   }, []); // Views
 
   let mainCarouselView;
 
-  if (address) {
-    // if (banners) {
-    const carouseItems = address.map((item, key1) =>
-    /*#__PURE__*/
-    // <div className="slide-item" key={item.id}>
-    Object(jsx_runtime_["jsx"])("div", {
-      className: "slide-item",
-      children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("a", {
-        href: "#",
-        onClick: () => setlat(item.endUserlatitude, item.endUserLongitude, item.endUserDeliveraddress, item.endUserStat, item.endUserCity, item.addressType),
-        children: [item.endUserDeliveraddress, ",", item.endUserStat, ",", item.endUserCity]
-      })
-    }, key1 + 1));
-    mainCarouselView = carouseItems;
+  if (userid !== null) {
+    if (address) {
+      // if (banners) {
+      const carouseItems = address.map((item, key1) =>
+      /*#__PURE__*/
+      // <div className="slide-item" key={item.id}>
+      Object(jsx_runtime_["jsx"])("div", {
+        className: "slide-item",
+        children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("a", {
+          href: "#",
+          onClick: () => setlat(item.endUserlatitude, item.endUserLongitude, item.endUserDeliveraddress, item.endUserStat, item.endUserCity, item.addressType),
+          children: [item.endUserDeliveraddress, ",", item.endUserStat, ",", item.endUserCity]
+        })
+      }, key1 + 1));
+      mainCarouselView = carouseItems;
+    }
+  } else {
+    mainCarouselView = '';
   }
 
   return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {

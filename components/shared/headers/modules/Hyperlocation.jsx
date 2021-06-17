@@ -7,7 +7,7 @@ const Hyperlocation = props => {
   const [address, setaddress] = useState([]);
   const [storeinfo, setstoreinfo] = useState([]);
   const [storename, setstorename] = useState([]);
-
+  const [userid, setuserid] = useState([]);
   async function getaddress() {
        
     console.log("123 ",localStorage.getItem("token"));
@@ -45,21 +45,16 @@ const Hyperlocation = props => {
     console.log('new longitude', localStorage.getItem('longitude'));
     window.location.href='/';
   }
-  const setcurrent = () => {
-    navigator.geolocation.getCurrentPosition(function(position) {
-      localStorage.setItem('latitude', position.coords.latitude);
-          localStorage.setItem('longitude', position.coords.longitude);
-      console.log("current Latitude is :", localStorage.getItem('latitude'));
-      console.log("current Longitude is :",localStorage.getItem('longitude'));
-    });
-    window.location.href='/';
-  }
+  
   useEffect(() => {
     getaddress();
+    setuserid(window.localStorage.getItem('userID'));
     
 }, []);
   // Views
   let mainCarouselView;
+  if(userid !==null)
+  {
   if (address) {
   // if (banners) {
       const carouseItems = address.map((item,key1) => (
@@ -74,6 +69,11 @@ const Hyperlocation = props => {
       ));
       mainCarouselView=carouseItems;
   }
+}
+else
+{
+  mainCarouselView='';
+}
   return (
     <div className="popup-box">
       <div className="box">

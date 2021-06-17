@@ -78,15 +78,18 @@ class Login extends Component {
             let data;
             const token=await Helper.getToken();
             data=await Helper.validateOTP(this.state);
-            console.log( 'data', data);
-            sessionStorage.setItem('fullName', data.data.fullName);
-            sessionStorage.setItem('userID', data.data.userID);
-            sessionStorage.setItem('mobileNo', data.data.mobileNo);
-            sessionStorage.setItem('email', data.data.email);
-            sessionStorage.setItem('profilePic', data.data.profilePic);
+            const responseData = data;
+            console.log( 'responseData', responseData);
+            //console.log('rerurn data', data);
+            localStorage.setItem('fullName', responseData.data.data.fullName);
+            localStorage.setItem('userID', responseData.data.data.userID);
+            localStorage.setItem('mobileNo', responseData.data.data.mobileNo);
+            localStorage.setItem('email', responseData.data.data.email);
+            localStorage.setItem('profilePic', responseData.data.data.profilePic);
+            console.log( 'userID', localStorage.getItem('userID'));
             this.modalSuccess('success');
             this.props.dispatch(login());
-            Router.push('/');
+          Router.push('/');
         }
        
 

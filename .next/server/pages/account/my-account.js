@@ -6613,6 +6613,7 @@ const Hyperlocation = props => {
 
   const setdelivery = item => {
     console.log('deliverymethod', item);
+    localStorage.removeItem('deliverymethod');
     localStorage.setItem('deliverymethod', item);
   };
 
@@ -6634,6 +6635,24 @@ const Hyperlocation = props => {
   }, []); // Views
 
   let mainCarouselView;
+  let html;
+  let storeclassname;
+  let homeclassname;
+  let storeclick;
+  let homeclick;
+
+  if (localStorage.getItem('deliverymethod') == 1) {
+    storeclick = "click";
+    homeclick = "";
+  }
+
+  if (localStorage.getItem('deliverymethod') == 2) {
+    storeclick = "";
+    homeclick = "click";
+  }
+
+  storeclassname = "blue-button" + " " + storeclick;
+  homeclassname = "blue-button" + " " + homeclick;
 
   if (userid !== null) {
     if (address) {
@@ -6651,29 +6670,46 @@ const Hyperlocation = props => {
       }, key1 + 1));
       mainCarouselView = carouseItems;
     }
+
+    html = /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+      className: "popup-box",
+      children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+        className: "box",
+        children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
+          className: "close-icon",
+          onClick: props.handleClose,
+          children: "x"
+        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+          onClick: () => setdelivery(1),
+          className: storeclassname,
+          children: "Pickup from store"
+        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+          onClick: () => setdelivery(2),
+          className: homeclassname,
+          children: "Home Delivery"
+        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), mainCarouselView]
+      })
+    });
   } else {
     mainCarouselView = '';
+    html = /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
+      className: "popup-box",
+      children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
+        className: "box",
+        children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
+          className: "close-icon",
+          onClick: props.handleClose,
+          children: "x"
+        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("a", {
+          onClick: () => setdelivery(1),
+          className: storeclassname,
+          children: "Pickup from store"
+        }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), mainCarouselView]
+      })
+    });
   }
 
-  return /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {
-    className: "popup-box",
-    children: /*#__PURE__*/Object(jsx_runtime_["jsxs"])("div", {
-      className: "box",
-      children: [/*#__PURE__*/Object(jsx_runtime_["jsx"])("span", {
-        className: "close-icon",
-        onClick: props.handleClose,
-        children: "x"
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-        type: "button",
-        value: "Pickup from store",
-        onClick: () => setdelivery(1)
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])("input", {
-        type: "button",
-        value: "Home Delivery",
-        onClick: () => setdelivery(2)
-      }), /*#__PURE__*/Object(jsx_runtime_["jsx"])(modules_SearchLocationInput, {}), /*#__PURE__*/Object(jsx_runtime_["jsx"])("div", {}), mainCarouselView]
-    })
-  });
+  return html;
 };
 
 /* harmony default export */ var modules_Hyperlocation = __webpack_exports__["a"] = (Hyperlocation);

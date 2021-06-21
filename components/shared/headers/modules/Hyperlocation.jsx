@@ -32,7 +32,11 @@ const Hyperlocation = props => {
 
   const setdelivery = (item) => {
     console.log('deliverymethod', item);
-    localStorage.setItem('deliverymethod', item);
+    
+      localStorage.removeItem('deliverymethod');
+      localStorage.setItem('deliverymethod', item);
+    
+   
   }
   const setlat = (lat,long,address,state,city,addresstype) => {
     localStorage.setItem('latitude', lat);
@@ -53,6 +57,26 @@ const Hyperlocation = props => {
 }, []);
   // Views
   let mainCarouselView;
+  let html;
+  let storeclassname;
+  let homeclassname;
+  let storeclick;
+  let homeclick;
+  
+  if(localStorage.getItem('deliverymethod')==1)
+  {
+    storeclick="click";
+    homeclick="";
+  }
+  if(localStorage.getItem('deliverymethod')==2)
+  {
+    storeclick="";
+    homeclick="click";
+   
+    
+  }
+  storeclassname="blue-button"+" "+storeclick;
+  homeclassname="blue-button"+" "+homeclick;
   if(userid !==null)
   {
   if (address) {
@@ -69,32 +93,40 @@ const Hyperlocation = props => {
       ));
       mainCarouselView=carouseItems;
   }
+  html=<div className="popup-box">
+  <div className="box">
+    <span className="close-icon" onClick={props.handleClose}>x</span>
+    <a onClick={() => setdelivery(1)} className={storeclassname}>Pickup from store</a>
+    <a onClick={() => setdelivery(2)} className={homeclassname}>Home Delivery</a>
+ 
+<SearchLocationInput />    
+<div ></div>
+
+{mainCarouselView}
+  </div>
+  
+</div>
 }
 else
 {
   mainCarouselView='';
+  html=<div className="popup-box">
+  <div className="box">
+    <span className="close-icon" onClick={props.handleClose}>x</span>
+    <a onClick={() => setdelivery(1)} className={storeclassname}>Pickup from store</a>
+ 
+<SearchLocationInput />    
+<div ></div>
+
+{mainCarouselView}
+  </div>
+  
+</div>
 }
+
+
   return (
-    <div className="popup-box">
-      <div className="box">
-        <span className="close-icon" onClick={props.handleClose}>x</span>
-          <input
-      type="button"
-      value="Pickup from store"
-      onClick={() => setdelivery(1)} 
-    />
-     <input
-      type="button"
-      value="Home Delivery"
-      onClick={() => setdelivery(2)}
-    />
-    <SearchLocationInput />    
-    <div ></div>
-    
-   {mainCarouselView}
-      </div>
-      
-    </div>
+    html
   );
 };
 
